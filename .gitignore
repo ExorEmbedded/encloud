@@ -1,0 +1,15 @@
+*~
+*.o
+*.a
+*.so*
+*.log
+*.out
+*.msi
+*.pdb
+Makefile
+Makefile.Release
+Makefile.Debug
+build/
+debug/
+release/
+src/main/encloud
