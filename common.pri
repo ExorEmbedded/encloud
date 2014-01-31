@@ -1,7 +1,7 @@
 # Config options:
 #
 #   debug       add debugging symbols
-#   minimal     minimal version without service
+#   noservice   disable service functionality (simple QtCoreApplication)
 
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
@@ -17,10 +17,22 @@ CONFIG += qtjson  # GPL/self-contained
 # TODO
 #CONFIG += qjson  # LGPL/external
 
+#
+# test config
+# 
+CONFIG += noservice
+
+#
+# Qt settings
+# 
+
 QT += core
 QT += network
 
-SRCBASEDIR = $$PWD
+
+#
+# custom compilation macros and flags
+# 
 
 DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
 !isEmpty(VERSION_TAG) {
@@ -34,9 +46,18 @@ DEFINES += ENCLOUD_PKGNAME_LOWER=\\\"$$PKGNAME_LOWER\\\"
 DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
 
 # custom flags
+noservice {
+    DEFINES += ENCLOUD_DISABLE_SERVICE=1
+}
 debug {
     QMAKE_CXXFLAGS += -g
 }
+
+#
+# build settings
+# 
+
+SRCBASEDIR = $$PWD
 
 # dependency for common headers, etc
 INCLUDEPATH += $$SRCBASEDIR/src/common
