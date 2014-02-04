@@ -1,8 +1,9 @@
 #ifndef _ENCLOUD_SERVICE_H_
 #define _ENCLOUD_SERVICE_H_
 
-#include "Server.h"
 #include "qtservice.h"
+#include <encloud/HttpServer>
+#include <encloud/HttpHandler>
 
 #define ENCLOUD_SVC_NAME            ENCLOUD_PRODUCT" Service"
 #define ENCLOUD_SVC_DESC            ENCLOUD_SVC_NAME" provides an API for VPN functionality"
@@ -23,11 +24,14 @@ class Service : public QObject, public QtService<QCoreApplication>
 public:
     Service (int argc, char **argv);
 
+    void setHandler (libencloud::HttpHandler *handler);
+
 protected:
     void start ();
     void stop ();
 
-    Server *_server;
+    libencloud::HttpServer *_server;
+    libencloud::HttpHandler *handler;
 };
 
 }  // namespace encloud

@@ -4,5 +4,8 @@
 [refactoring]
 - service/application
 
+[service]
+- implement basic service as daemon
+
 [other]
 - distinguish ORG for tap device name?

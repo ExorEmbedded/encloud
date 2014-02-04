@@ -9,8 +9,8 @@ CONFIG += staticlib
 HEADERS += common.h
 HEADERS += helpers.h
 
-HEADERS += utils.h
-SOURCES += utils.cpp
+HEADERS += info.h
+SOURCES += info.cpp
 
 HEADERS += json.h
 SOURCES += json.cpp

@@ -5,7 +5,7 @@
 #include "common.h"
 
 namespace encloud {
-namespace utils {
+namespace info {
 
 QString org ();
 QString app ();
@@ -14,7 +14,7 @@ QString revision ();
 QString versionTag ();
 QString versionInfo ();
 
-}  // namespace utils
+}  // namespace info
 }  // namespace encloud
 
 #endif

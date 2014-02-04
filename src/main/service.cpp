@@ -1,4 +1,4 @@
-#include <ENCLOUD/Config.h>
+#include <encloud/Config.h>
 #include "service.h"
 #include "server.h"
 #include "common.h"
@@ -21,6 +21,11 @@ Service::Service (int argc, char **argv)
     setStartupType(QtServiceController::AutoStartup);  // autostart
 }
 
+void Service::setHandler (libencloud::HttpHandler *handler)
+{
+    _handler = handler;
+}
+
 //
 // private slots
 //
@@ -39,6 +44,7 @@ void Service::start ()
     ENCLOUD_SVC_ERR_IF (app == NULL);
 
     _server = new HttpServer(app);
+    _server->setHandler(_handler);
     ENCLOUD_SVC_ERR_IF (_server == NULL);
     ENCLOUD_SVC_ERR_IF (_server->start());
     ENCLOUD_SVC_ERR_IF (!_server->isListening());

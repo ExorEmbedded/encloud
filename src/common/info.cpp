@@ -1,7 +1,7 @@
 #include "common.h"
 
 namespace encloud {
-namespace utils {
+namespace info {
 
 QString org () 
 { 
@@ -45,5 +45,5 @@ QString versionInfo ()
     return info;
 }
 
-}  // namespace utils
+}  // namespace info
 }  // namespace encloud
