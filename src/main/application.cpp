@@ -26,6 +26,15 @@ Application::Application (int argc, char **argv)
 #endif
 
     core.start();
+
+    connect(&core, SIGNAL(stateChanged(QString)), this, SLOT(stateChanged(QString)));
 }
+
+void Application::stateChanged (const QString &state)
+{
+   ENCLOUD_SVC_DBG("state: " << state);
+}
+
+
 
 }  // namespace encloud

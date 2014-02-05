@@ -24,9 +24,15 @@ class Application :
     Q_OBJECT
 
 public:
+
     Application (int argc, char **argv);
 
+private slots:
+
+    void stateChanged (const QString &state);
+
 private:
+
 #ifdef ENCLOUD_DISABLE_SERVICE
     libencloud::HttpServer _server;
 #endif

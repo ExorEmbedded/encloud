@@ -10,7 +10,7 @@
 
 // TODO QtServiceBase::instance()->logMessage("Sample message");
 #define ENCLOUD_SVC_TRACE           ENCLOUD_TRACE
-#define ENCLOUD_SVC_LOG(msg)        ENCLOUD_DBG(msg)
+#define ENCLOUD_SVC_DBG(msg)        ENCLOUD_DBG(msg)
 #define ENCLOUD_SVC_ERR_IF(cond)    ENCLOUD_ERR_IF(cond)
 #define ENCLOUD_SVC_RETURN_IF(cond, res)    ENCLOUD_RETURN_IF(cond, res)
 
