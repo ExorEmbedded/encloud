@@ -6,7 +6,7 @@
 #include <encloud/HttpHandler>
 
 #define ENCLOUD_SVC_NAME            ENCLOUD_PRODUCT" Service"
-#define ENCLOUD_SVC_DESC            ENCLOUD_SVC_NAME" provides an API for VPN functionality"
+#define ENCLOUD_SVC_DESC            ENCLOUD_SVC_NAME" provides an API for cloud functionality"
 
 // TODO QtServiceBase::instance()->logMessage("Sample message");
 #define ENCLOUD_SVC_TRACE           ENCLOUD_TRACE
@@ -31,7 +31,7 @@ protected:
     void stop ();
 
     libencloud::HttpServer *_server;
-    libencloud::HttpHandler *handler;
+    libencloud::HttpHandler *_handler;
 };
 
 }  // namespace encloud

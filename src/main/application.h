@@ -27,10 +27,6 @@ public:
 
     Application (int argc, char **argv);
 
-private slots:
-
-    void stateChanged (const QString &state);
-
 private:
 
 #ifdef ENCLOUD_DISABLE_SERVICE
@@ -38,7 +34,7 @@ private:
 #endif
     libencloud::HttpHandler _handler;
 
-    libencloud::Core core;
+    libencloud::Core _core;
 };
 
 }  // namespace encloud
