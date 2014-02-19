@@ -25,7 +25,7 @@ Application::Application (int argc, char **argv)
     _server.start();
 #endif
 
-    _core.setServer(&_server);
+    _core.attachServer(&_server);
     _core.start();
 }
 
