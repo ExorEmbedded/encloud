@@ -10,10 +10,11 @@ namespace encloud
 //
 
 Application::Application (int argc, char **argv)
+    : _isValid(false)
 #ifndef ENCLOUD_DISABLE_SERVICE
-    : Service(argc, argv)
+    , Service(argc, argv)
 #else
-    : QCoreApplication(argc, argv)
+    , QCoreApplication(argc, argv)
 #endif
 {
     ENCLOUD_SVC_TRACE;
@@ -25,8 +26,20 @@ Application::Application (int argc, char **argv)
     _server.start();
 #endif
 
-    _core.attachServer(&_server);
-    _core.start();
+    if (!_core.isValid() ||
+        _core.attachServer(&_server) ||
+        _core.start())
+        goto err;
+
+    _isValid = true;
+
+err:
+    return;
+}
+
+bool Application::isValid ()
+{
+    return _isValid;
 }
 
 }  // namespace encloud

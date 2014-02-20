@@ -27,7 +27,11 @@ public:
 
     Application (int argc, char **argv);
 
+    bool isValid ();
+
 private:
+
+    bool _isValid;
 
 #ifdef ENCLOUD_DISABLE_SERVICE
     libencloud::HttpServer _server;
