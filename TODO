@@ -1,11 +1,5 @@
 [log/debug]
-- to file
-
-[refactoring]
-- service/application
+- to file?
 
 [service]
-- implement basic service as daemon
-
-[other]
-- distinguish ORG for tap device name?
+- linux: implement basic service as daemon

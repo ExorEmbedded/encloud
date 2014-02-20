@@ -1,16 +1,44 @@
 # Config options:
 #
-#   debug       add debugging symbols
+# [ General ]
+#
+#   endian      Endian build - used for local install paths
+#   exor        Exor build - used for local install paths
+#   debug       compile libraries with debugging symbols
+#
+# [ Modes ]
+# 
+# Note: mode selection has implications only on local installs
+#       deployment is generic
+#
+#   modeqic     Endian 4i Connect / Exor JMConnect mode
+#   modeece     Endian Cloud Enabler mode
+#   modesece    Software Endian Cloud Enabler mode
+#
+# [ Feature Disabling ]
+#
 #   noservice   disable service functionality (simple QtCoreApplication)
 
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
-ORG = Endian
+
+PRODUCT_4IC="4iConnect"
+PRODUCT_JMC="JMConnect"
+PRODUCT_ENCLOUD="Encloud"
+PRODUCT_SECE="SECE"  # FIXME
 
 # only x.x.x.x format allowed, where x is a number
 VERSION = 0.1
 VERSION_TAG = Wip  # Dev version - comment this for official release!
 #VERSION_TAG = Beta  # Beta version - comment this for official releases!
+
+endian {
+    ORG = Endian
+} else:exor {
+    ORG = Exor
+} else {
+    error("organisation must be defined (CONFIG += endian|exor)!")
+}
 
 CONFIG += ordered
 CONFIG += qtjson  # GPL/self-contained
@@ -34,6 +62,19 @@ QT += network
 # custom compilation macros and flags
 # 
 
+modeqic {
+    endian {
+        PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_4IC}
+    } else {
+        PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_JMC}
+    }
+} else:modeece {
+} else:modesece {
+    PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_SECE}
+} else {
+    error("a mode must be defined (CONFIG += modeqic|modeece|modesece)!")
+}
+
 DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
 !isEmpty(VERSION_TAG) {
     DEFINES += ENCLOUD_VERSION_TAG=\\\"$$VERSION_TAG\\\"
@@ -49,7 +90,7 @@ DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
 noservice {
     DEFINES += ENCLOUD_DISABLE_SERVICE=1
 }
-debug {
+debug:unix {
     QMAKE_CXXFLAGS += -g
 }
 
@@ -63,10 +104,26 @@ SRCBASEDIR = $$PWD
 INCLUDEPATH += $$SRCBASEDIR/src/common
 DEPENDPATH += $$INCLUDEPATH
 
+# install dirs
+windows {  # used only for dev - installer handles positioning on target
+           # and runtime paths are defined in src/common/defaults.h
+    INSTALLDIR = $${PROGDIR}
+    BINDIR = $${INSTALLDIR}/bin
+} else {  # used for dev and production
+    INSTALLDIR = /usr/local
+    BINDIR = /usr/sbin
+}
+
+#message("BINDIR: $$BINDIR")
+
 # keep build files separate from sources
 UI_DIR = build/uics
 MOC_DIR = build/mocs
 RCC_DIR = build/rcc
 OBJECTS_DIR = build/objs
-Release:DESTDIR = release
-Debug:DESTDIR = debug
+win32 {
+    Release:DESTDIR = release
+    Debug:DESTDIR = debug
+} else {
+    DESTDIR =
+}

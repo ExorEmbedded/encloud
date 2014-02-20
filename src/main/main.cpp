@@ -12,9 +12,7 @@ int main (int argc, char **argv)
     encloud::Application app(argc, argv);
 
     qDebug() << "Starting" << qPrintable(encloud::info::versionInfo())
-             << "rev: " << qPrintable(encloud::info::revision())
-             << " - " << qPrintable(libencloud::info::versionInfo())
-             << "rev: " << qPrintable(libencloud::info::revision());
+             << "rev: " << qPrintable(encloud::info::revision());
 
     //g_cfg = &config;  // for ENCLOUD_ macro usage
     //ENCLOUD_DBG(g_cfg->dump());
