@@ -1,6 +1,7 @@
 #include "service.h"
 #include "common.h"
 #include "application.h"
+#include <encloud/Core>
 
 namespace encloud 
 {
@@ -20,16 +21,16 @@ Application::Application (int argc, char **argv)
     ENCLOUD_SVC_TRACE;
 
 #ifndef ENCLOUD_DISABLE_SERVICE
-    setHandler(&_handler);
+    ENCLOUD_SVC_DBG("QtService enabled");
+    ENCLOUD_ERR_IF (0);  // just to reference err label
 #else
+    ENCLOUD_SVC_DBG("QtService disabled");
+    ENCLOUD_ERR_IF (!_core.isValid());
     _server.setHandler(&_handler);
-    _server.start();
+    ENCLOUD_ERR_IF (_core.attachServer(&_server));
+    ENCLOUD_ERR_IF (_server.start() ||
+                    _core.start());
 #endif
-
-    if (!_core.isValid() ||
-        _core.attachServer(&_server) ||
-        _core.start())
-        goto err;
 
     _isValid = true;
 

@@ -2,6 +2,9 @@ include(../../common.pri)
 
 TEMPLATE = app
 
+# testing
+CONFIG += console
+
 TARGET = $$PKGNAME_LOWER
 
 SOURCES += main.cpp

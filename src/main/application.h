@@ -16,7 +16,7 @@ namespace encloud  {
 
 class Application :
 #ifndef ENCLOUD_DISABLE_SERVICE
-    public QObject, public QtService<QCoreApplication>
+    public Service
 #else
     public QCoreApplication
 #endif
@@ -35,10 +35,10 @@ private:
 
 #ifdef ENCLOUD_DISABLE_SERVICE
     libencloud::HttpServer _server;
-#endif
     libencloud::HttpHandler _handler;
 
     libencloud::Core _core;
+#endif
 };
 
 }  // namespace encloud

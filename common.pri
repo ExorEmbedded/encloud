@@ -8,8 +8,7 @@
 #
 # [ Modes ]
 # 
-# Note: mode selection has implications only on local installs
-#       deployment is generic
+# Note: mode selection has implications on behaviour and packaging!
 #
 #   modeqic     Endian 4i Connect / Exor JMConnect mode
 #   modeece     Endian Cloud Enabler mode
@@ -46,9 +45,9 @@ CONFIG += qtjson  # GPL/self-contained
 #CONFIG += qjson  # LGPL/external
 
 #
-# test config
+# test different configurations
 # 
-CONFIG += noservice
+#CONFIG += noservice
 
 #
 # Qt settings
@@ -65,12 +64,16 @@ QT += network
 modeqic {
     endian {
         PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_4IC}
+        DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_4IC}\\\"
     } else {
         PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_JMC}
+        DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_JMC}\\\"
     }
 } else:modeece {
+    DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_ENCLOUD}\\\"
 } else:modesece {
     PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_SECE}
+    DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_SECE}\\\"
 } else {
     error("a mode must be defined (CONFIG += modeqic|modeece|modesece)!")
 }

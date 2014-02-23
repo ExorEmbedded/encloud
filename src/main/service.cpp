@@ -1,7 +1,13 @@
-#include <encloud/Config.h>
+#include <QDir>
+#include <QMutex>
+#include <QTextStream>
+#if defined(Q_OS_WIN32)
+#  include <qt_windows.h>
+#endif
+#include <encloud/Common>
 #include "service.h"
-#include "server.h"
 #include "common.h"
+
 
 namespace encloud 
 {
@@ -12,42 +18,51 @@ namespace encloud
 
 Service::Service (int argc, char **argv)
     : QtService<QCoreApplication> (argc, argv, ENCLOUD_SVC_NAME)
-    , server(NULL)
+    , _server(NULL)
 {
     ENCLOUD_SVC_TRACE;
 
-    setServiceDescription(ENCLOUD_SVC_NAME);
-    setServiceFlags(QtServiceBase::Default);  // can be stopped, but not suspended
-    setStartupType(QtServiceController::AutoStartup);  // autostart
+    initService();
 }
 
-void Service::setHandler (libencloud::HttpHandler *handler)
+Service::~Service ()
 {
-    _handler = handler;
+    ENCLOUD_SVC_TRACE;
 }
-
-//
-// private slots
-//
 
 //
 // protected methods
 //
 
+void Service::initService ()
+{
+    ENCLOUD_SVC_TRACE;
+
+    setServiceDescription(ENCLOUD_SVC_NAME);
+
+    // can be stopped, but not suspended
+    setServiceFlags(QtServiceBase::Default);
+
+    // autostart
+    setStartupType(QtServiceController::AutoStartup);
+}
+
 void Service::start ()
 {
     ENCLOUD_SVC_TRACE;
 
-    ENCLOUD_SVC_RETURN_IF (_server != NULL, ); 
-
     QCoreApplication *app = application();
     ENCLOUD_SVC_ERR_IF (app == NULL);
 
-    _server = new HttpServer(app);
-    _server->setHandler(_handler);
-    ENCLOUD_SVC_ERR_IF (_server == NULL);
-    ENCLOUD_SVC_ERR_IF (_server->start());
-    ENCLOUD_SVC_ERR_IF (!_server->isListening());
+    ENCLOUD_SVC_ERR_IF (!_core.isValid());
+
+    _server.setHandler(&_handler);
+
+    ENCLOUD_SVC_ERR_IF (_core.attachServer(&_server));
+    ENCLOUD_SVC_ERR_IF (_core.start());
+
+    ENCLOUD_SVC_ERR_IF (_server.start());
+    ENCLOUD_SVC_ERR_IF (!_server.isListening());
 
     return;
 err:
@@ -59,9 +74,8 @@ void Service::stop ()
 {
     ENCLOUD_SVC_TRACE;
 
-    ENCLOUD_SVC_ERR_IF (_server == NULL); 
-    ENCLOUD_SVC_ERR_IF (_server->stop()); 
-    ENCLOUD_DELETE(_server);
+    ENCLOUD_SVC_ERR_IF (_server.stop()); 
+    ENCLOUD_SVC_ERR_IF (_core.stop()); 
 err:
     return;
 }
