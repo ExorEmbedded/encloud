@@ -28,14 +28,15 @@ public:
     ~Service ();
 
 protected:
-    void initService ();
+    int initService ();
+    int initEncloud ();
 
     void start ();
     void stop ();
 
-    libencloud::Core _core;
-    libencloud::HttpServer _server;
-    libencloud::HttpHandler _handler;
+    libencloud::Core *_core;
+    libencloud::HttpHandler *_handler;
+    libencloud::HttpServer *_server;
 };
 
 }  // namespace encloud

@@ -11,12 +11,12 @@ namespace encloud
 //
 
 Application::Application (int argc, char **argv)
-    : _isValid(false)
 #ifndef ENCLOUD_DISABLE_SERVICE
-    , Service(argc, argv)
+    : Service(argc, argv)
 #else
-    , QCoreApplication(argc, argv)
+    : QCoreApplication(argc, argv)
 #endif
+    , _isValid(false)
 {
     ENCLOUD_SVC_TRACE;
 

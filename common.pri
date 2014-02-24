@@ -39,6 +39,7 @@ endian {
     error("organisation must be defined (CONFIG += endian|exor)!")
 }
 
+unix:CONFIG -= debug
 CONFIG += ordered
 CONFIG += qtjson  # GPL/self-contained
 # TODO

@@ -3,7 +3,7 @@
 # WARNING: cleans untracked files!!!
 
 git clean -fdx . && \
-qmake -r #CONFIG+=endian
+qmake -r CONFIG+="endian modesece"
 make
 
 #make check

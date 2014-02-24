@@ -18,23 +18,35 @@ namespace encloud
 
 Service::Service (int argc, char **argv)
     : QtService<QCoreApplication> (argc, argv, ENCLOUD_SVC_NAME)
+    , _core(NULL)
+    , _handler(NULL)
     , _server(NULL)
 {
     ENCLOUD_SVC_TRACE;
 
-    initService();
+    ENCLOUD_ERR_IF (initService());
+    ENCLOUD_ERR_IF (initEncloud());
+
+err:
+    return;
 }
 
 Service::~Service ()
 {
     ENCLOUD_SVC_TRACE;
+
+    stop();
+
+    ENCLOUD_DELETE(_server);
+    ENCLOUD_DELETE(_handler);
+    ENCLOUD_DELETE(_core);
 }
 
 //
 // protected methods
 //
 
-void Service::initService ()
+int Service::initService ()
 {
     ENCLOUD_SVC_TRACE;
 
@@ -45,6 +57,31 @@ void Service::initService ()
 
     // autostart
     setStartupType(QtServiceController::AutoStartup);
+
+    return 0;
+}
+
+int Service::initEncloud ()
+{
+    _core = new libencloud::Core();
+    ENCLOUD_SVC_ERR_IF (_core == NULL);
+    ENCLOUD_SVC_ERR_IF (!_core->isValid());
+
+    _handler = new libencloud::HttpHandler();
+    ENCLOUD_SVC_ERR_IF (_handler == NULL);
+
+    _server = new libencloud::HttpServer();
+    ENCLOUD_SVC_ERR_IF (_server == NULL);
+
+    _server->setHandler(_handler);
+
+    return 0;
+err:
+    ENCLOUD_DELETE(_server);
+    ENCLOUD_DELETE(_handler);
+    ENCLOUD_DELETE(_core);
+
+    return ~0;
 }
 
 void Service::start ()
@@ -54,15 +91,11 @@ void Service::start ()
     QCoreApplication *app = application();
     ENCLOUD_SVC_ERR_IF (app == NULL);
 
-    ENCLOUD_SVC_ERR_IF (!_core.isValid());
+    ENCLOUD_SVC_ERR_IF (_core->attachServer(_server));
+    ENCLOUD_SVC_ERR_IF (_core->start());
 
-    _server.setHandler(&_handler);
-
-    ENCLOUD_SVC_ERR_IF (_core.attachServer(&_server));
-    ENCLOUD_SVC_ERR_IF (_core.start());
-
-    ENCLOUD_SVC_ERR_IF (_server.start());
-    ENCLOUD_SVC_ERR_IF (!_server.isListening());
+    ENCLOUD_SVC_ERR_IF (_server->start());
+    ENCLOUD_SVC_ERR_IF (!_server->isListening());
 
     return;
 err:
@@ -74,10 +107,8 @@ void Service::stop ()
 {
     ENCLOUD_SVC_TRACE;
 
-    ENCLOUD_SVC_ERR_IF (_server.stop()); 
-    ENCLOUD_SVC_ERR_IF (_core.stop()); 
-err:
-    return;
+    _server->stop();
+    _core->stop();
 }
 
 }  // namespace encloud
