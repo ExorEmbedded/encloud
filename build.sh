@@ -3,10 +3,8 @@
 # WARNING: cleans untracked files!!!
 
 git clean -fdx . && \
-qmake -r CONFIG+="endian modesece"
+qmake && \
 make
-
-#make check
 
 if [ $? -ne 0 ]; then
     echo "Failure in build."

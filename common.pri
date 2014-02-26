@@ -18,6 +18,17 @@
 #
 #   noservice   disable service functionality (simple QtCoreApplication)
 
+
+# Local configuration overrides. Sample content:
+#     CONFIG += endian
+#     CONFIG += modeqic
+LOCALCONFIG=$$(HOME)/.qmake.pri
+exists($${LOCALCONFIG}): include($${LOCALCONFIG})
+
+
+#
+# global defs
+#
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
 
