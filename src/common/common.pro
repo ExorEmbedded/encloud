@@ -11,18 +11,3 @@ HEADERS += helpers.h
 
 HEADERS += info.h
 SOURCES += info.cpp
-
-HEADERS += json.h
-SOURCES += json.cpp
-
-contains(CONFIG, qtjson) {
-    HEADERS += qtjson.h
-    SOURCES += qtjson.cpp
-    SOURCES += json-qtjson.cpp
-}
-
-# new/default LGPL Json implementation (larger: external package)
-contains(CONFIG, qjson) {
-    SOURCES += json-qjson.cpp
-    LIBS += -lqjson
-}
