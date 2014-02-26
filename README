@@ -1,3 +1,13 @@
+
+[[ What is Encloud Service? ]]
+
+A service based on QtService and libencloud which provides an API for connection to Cloud Services from PCs and devices. 
+
+Refer to libencloud/README for more info.
+
+
+[[ Build ]]
+
 [ libencloud ]
 
 Clone repo:
@@ -26,10 +36,14 @@ Clone repo:
 	$ git clone git@exorint.unfuddle.com:exorint/encloud
 
 QtCreator:
-    - load encloud and setup organisation and mode in CONFIG.
+    - load encloud project
+    - setup organisation and mode in CONFIG variable in "qmake" Build Step (see common.pri for definitions)
     - optional: to deploy locally for testing/development,
         add "install" to arguments in "Make" Build Step
     - build it
+
+
+[[ Runtime ]]
 
 Service Functionality:
     - encloud -i    to install service
