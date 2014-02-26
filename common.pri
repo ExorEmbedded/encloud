@@ -71,6 +71,7 @@ modeqic {
         DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_JMC}\\\"
     }
 } else:modeece {
+    PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_ENCLOUD}
     DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_ENCLOUD}\\\"
 } else:modesece {
     PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_SECE}
