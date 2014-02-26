@@ -18,13 +18,13 @@ Application::Application (int argc, char **argv)
 #endif
     , _isValid(false)
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
 #ifndef ENCLOUD_DISABLE_SERVICE
-    ENCLOUD_SVC_DBG("QtService enabled");
+    ENCLOUD_DBG("QtService enabled");
     ENCLOUD_ERR_IF (0);  // just to reference err label
 #else
-    ENCLOUD_SVC_DBG("QtService disabled");
+    ENCLOUD_DBG("QtService disabled");
     ENCLOUD_ERR_IF (!_core.isValid());
     _server.setHandler(&_handler);
     ENCLOUD_ERR_IF (_core.attachServer(&_server));
@@ -36,6 +36,11 @@ Application::Application (int argc, char **argv)
 
 err:
     return;
+}
+
+Application::~Application ()
+{
+    ENCLOUD_TRACE;
 }
 
 bool Application::isValid ()

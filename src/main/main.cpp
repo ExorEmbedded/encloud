@@ -21,8 +21,11 @@ int main (int argc, char **argv)
 
     encloud::Application app(argc, argv);
     ENCLOUD_ERR_IF (!app.isValid());
+    ENCLOUD_ERR_IF (app.exec());
 
-    return app.exec();
+    ENCLOUD_DBG("Success");
+    return 0;
 err:
+    ENCLOUD_DBG("Failure");
     return EXIT_FAILURE;
 }

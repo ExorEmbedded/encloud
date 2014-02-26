@@ -22,7 +22,7 @@ Service::Service (int argc, char **argv)
     , _handler(NULL)
     , _server(NULL)
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
     ENCLOUD_ERR_IF (initService());
     ENCLOUD_ERR_IF (initEncloud());
@@ -33,7 +33,7 @@ err:
 
 Service::~Service ()
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
     stop();
 
@@ -48,7 +48,7 @@ Service::~Service ()
 
 int Service::initService ()
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
     setServiceDescription(ENCLOUD_SVC_NAME);
 
@@ -64,14 +64,14 @@ int Service::initService ()
 int Service::initEncloud ()
 {
     _core = new libencloud::Core();
-    ENCLOUD_SVC_ERR_IF (_core == NULL);
-    ENCLOUD_SVC_ERR_IF (!_core->isValid());
+    ENCLOUD_ERR_IF (_core == NULL);
+    ENCLOUD_ERR_IF (!_core->isValid());
 
     _handler = new libencloud::HttpHandler();
-    ENCLOUD_SVC_ERR_IF (_handler == NULL);
+    ENCLOUD_ERR_IF (_handler == NULL);
 
     _server = new libencloud::HttpServer();
-    ENCLOUD_SVC_ERR_IF (_server == NULL);
+    ENCLOUD_ERR_IF (_server == NULL);
 
     _server->setHandler(_handler);
 
@@ -86,16 +86,16 @@ err:
 
 void Service::start ()
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
     QCoreApplication *app = application();
-    ENCLOUD_SVC_ERR_IF (app == NULL);
+    ENCLOUD_ERR_IF (app == NULL);
 
-    ENCLOUD_SVC_ERR_IF (_core->attachServer(_server));
-    ENCLOUD_SVC_ERR_IF (_core->start());
+    ENCLOUD_ERR_IF (_core->attachServer(_server));
+    ENCLOUD_ERR_IF (_core->start());
 
-    ENCLOUD_SVC_ERR_IF (_server->start());
-    ENCLOUD_SVC_ERR_IF (!_server->isListening());
+    ENCLOUD_ERR_IF (_server->start());
+    ENCLOUD_ERR_IF (!_server->isListening());
 
     return;
 err:
@@ -105,7 +105,7 @@ err:
 
 void Service::stop ()
 {
-    ENCLOUD_SVC_TRACE;
+    ENCLOUD_TRACE;
 
     _server->stop();
     _core->stop();
