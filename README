@@ -1,0 +1,42 @@
+[ libencloud ]
+
+Clone repo:
+	$ git clone git@exorint.unfuddle.com:exorint/libencloud
+
+Follow libencloud/README.
+
+[ QtService ]
+
+Clone repo:
+    $ git clone git://qt.gitorious.org/qt-solutions/qt-solutions
+    $ cd qt-solutions\qtservice
+
+Get reference tag:
+    $ git checkout fd22bee
+
+Configure for DLLs:
+    $ echo "SOLUTIONS_LIBRARY = yes" > config.pri
+
+QtCreator:
+    - load and build qtservice
+
+[ Encloud ]
+
+Clone repo:
+	$ git clone git@exorint.unfuddle.com:exorint/encloud
+
+QtCreator:
+    - load encloud and setup organisation and mode in CONFIG.
+    - optional: to deploy locally for testing/development,
+        add "install" to arguments in "Make" Build Step
+    - build it
+
+Service Functionality:
+    - encloud -i    to install service
+    - encloud       to start service
+    - encloud -t    to stop service
+
+Logging:
+    encloud-log.txt
+    - W32: in Common AppData directory
+    - unix: /var/lib/encloud
