@@ -6,6 +6,8 @@
 *.out
 *.msi
 *.pdb
+*.pro.user
+*.rc
 Makefile
 Makefile.Release
 Makefile.Debug
