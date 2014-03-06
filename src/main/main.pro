@@ -12,6 +12,9 @@ SOURCES += main.cpp
 SOURCES += application.cpp
 HEADERS += application.h
 
+SOURCES += server.cpp
+HEADERS += server.h
+
 !noservice {
     SOURCES += service.cpp
     HEADERS += service.h
@@ -62,4 +65,5 @@ INSTALLS += target
 
 # command to run upon 'make check'
 # ENCLOUD_WRAP environment variable can be set to "gdb", "valgrind", etc
+# e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" && qmake -r
 check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src $$(ENCLOUD_WRAP) ./$$TARGET

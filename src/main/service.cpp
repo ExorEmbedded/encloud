@@ -1,13 +1,5 @@
-#include <QDir>
-#include <QMutex>
-#include <QTextStream>
-#if defined(Q_OS_WIN32)
-#  include <qt_windows.h>
-#endif
-#include <encloud/Common>
 #include "service.h"
 #include "common.h"
-
 
 namespace encloud 
 {
@@ -16,41 +8,17 @@ namespace encloud
 // public methods
 //
 
+// IMPORTANT NOTE: All heap allocation/deallocation MUST happen in
+// start()/stop() to avoid QtService memory corruption
 Service::Service (int argc, char **argv)
     : QtService<QCoreApplication> (argc, argv, ENCLOUD_SVC_NAME)
-    , _core(NULL)
-    , _handler(NULL)
+    , _isValid(false)
+    , _isRunning(false)
     , _server(NULL)
 {
     ENCLOUD_TRACE;
 
-    ENCLOUD_ERR_IF (initService());
-    ENCLOUD_ERR_IF (initEncloud());
-
-err:
-    return;
-}
-
-Service::~Service ()
-{
-    ENCLOUD_TRACE;
-
-    stop();
-
-    ENCLOUD_DELETE(_server);
-    ENCLOUD_DELETE(_handler);
-    ENCLOUD_DELETE(_core);
-}
-
-//
-// protected methods
-//
-
-int Service::initService ()
-{
-    ENCLOUD_TRACE;
-
-    setServiceDescription(ENCLOUD_SVC_NAME);
+    setServiceDescription(ENCLOUD_SVC_DESC);
 
     // can be stopped, but not suspended
     setServiceFlags(QtServiceBase::Default);
@@ -58,48 +26,39 @@ int Service::initService ()
     // autostart
     setStartupType(QtServiceController::AutoStartup);
 
-    return 0;
+    _isValid = true;
 }
 
-int Service::initEncloud ()
+Service::~Service ()
 {
-    _core = new libencloud::Core();
-    ENCLOUD_ERR_IF (_core == NULL);
-    ENCLOUD_ERR_IF (!_core->isValid());
+    ENCLOUD_TRACE;
 
-    _handler = new libencloud::HttpHandler();
-    ENCLOUD_ERR_IF (_handler == NULL);
-
-    _server = new libencloud::HttpServer();
-    ENCLOUD_ERR_IF (_server == NULL);
-
-    _server->setHandler(_handler);
-
-    return 0;
-err:
-    ENCLOUD_DELETE(_server);
-    ENCLOUD_DELETE(_handler);
-    ENCLOUD_DELETE(_core);
-
-    return ~0;
+    stop();
 }
+
+bool Service::isValid () { return _isValid; } 
+
+//
+// protected methods
+//
 
 void Service::start ()
 {
     ENCLOUD_TRACE;
 
+    if (_isRunning)
+        return;
+
     QCoreApplication *app = application();
     ENCLOUD_ERR_IF (app == NULL);
 
-    ENCLOUD_ERR_IF (_core->attachServer(_server));
-    ENCLOUD_ERR_IF (_core->start());
+    _server = new Server(app);
+    ENCLOUD_ERR_IF (_server == NULL);
 
     ENCLOUD_ERR_IF (_server->start());
-    ENCLOUD_ERR_IF (!_server->isListening());
 
-    return;
+    _isRunning = true;
 err:
-    app->quit();
     return;
 }
 
@@ -107,8 +66,13 @@ void Service::stop ()
 {
     ENCLOUD_TRACE;
 
-    _server->stop();
-    _core->stop();
+    if (!_isRunning)
+        return;
+
+    ENCLOUD_ERR_IF (_server->stop());
+err:
+    ENCLOUD_DELETE (_server);
+    return;
 }
 
 }  // namespace encloud

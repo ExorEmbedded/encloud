@@ -16,8 +16,8 @@ int main (int argc, char **argv)
 
     ENCLOUD_TRACE; 
 
-    ENCLOUD_DBG("Starting " << qPrintable(encloud::info::versionInfo())
-            << "rev: " << qPrintable(encloud::info::revision()));
+    qDebug() << "Starting " << qPrintable(encloud::info::versionInfo())
+            << "rev: " << qPrintable(encloud::info::revision());
 
     encloud::Application app(argc, argv);
     ENCLOUD_ERR_IF (!app.isValid());

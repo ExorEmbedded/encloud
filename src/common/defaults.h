@@ -4,6 +4,7 @@
 // Required by qsettings values and used for info()
 #define ENCLOUD_APP                 ENCLOUD_PKGNAME
 #define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
+#define ENCLOUD_LIBENCLOUD_APP      "libencloud"
 
 // e.g Endian/4iConnect, Exor/JMConnect
 #define ENCLOUD_PRODUCTDIR          ENCLOUD_ORG "/" ENCLOUD_PRODUCT

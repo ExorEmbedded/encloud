@@ -15,6 +15,7 @@ Application::Application (int argc, char **argv)
     : Service(argc, argv)
 #else
     : QCoreApplication(argc, argv)
+    , _server(NULL)
 #endif
     , _isValid(false)
 {
@@ -22,14 +23,12 @@ Application::Application (int argc, char **argv)
 
 #ifndef ENCLOUD_DISABLE_SERVICE
     ENCLOUD_DBG("QtService enabled");
-    ENCLOUD_ERR_IF (0);  // just to reference err label
+    ENCLOUD_ERR_IF (!Service::isValid());
 #else
     ENCLOUD_DBG("QtService disabled");
-    ENCLOUD_ERR_IF (!_core.isValid());
-    _server.setHandler(&_handler);
-    ENCLOUD_ERR_IF (_core.attachServer(&_server));
-    ENCLOUD_ERR_IF (_server.start() ||
-                    _core.start());
+    ENCLOUD_ERR_IF (_server = new Server(this));
+    ENCLOUD_ERR_IF (_server == NULL);
+    ENCLOUD_ERR_IF (_server->start());
 #endif
 
     _isValid = true;
@@ -41,6 +40,11 @@ err:
 Application::~Application ()
 {
     ENCLOUD_TRACE;
+
+#ifdef ENCLOUD_DISABLE_SERVICE
+    _server->stop();
+    ENCLOUD_DELETE(_server);
+#endif
 }
 
 bool Application::isValid ()

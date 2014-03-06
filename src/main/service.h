@@ -1,15 +1,11 @@
 #ifndef _ENCLOUD_SERVICE_H_
 #define _ENCLOUD_SERVICE_H_
 
-#include <QFile>
-#include <QTextStream>
-#include <encloud/Core>
-#include <encloud/HttpServer>
-#include <encloud/HttpHandler>
 #include "qtservice.h"
+#include "server.h"
 
 #define ENCLOUD_SVC_NAME    ENCLOUD_APP_FULL " Service"
-#define ENCLOUD_SVC_DESC    ENCLOUD_SVC_NAME " provides an API for cloud functionality"
+#define ENCLOUD_SVC_DESC    ENCLOUD_SVC_NAME " provides an API for Cloud functionality"
 
 namespace encloud 
 {
@@ -22,16 +18,15 @@ public:
     Service (int argc, char **argv);
     ~Service ();
 
-protected:
-    int initService ();
-    int initEncloud ();
+    bool isValid ();
 
+protected:
     void start ();
     void stop ();
 
-    libencloud::Core *_core;
-    libencloud::HttpHandler *_handler;
-    libencloud::HttpServer *_server;
+    bool _isValid;
+    bool _isRunning;
+    Server *_server;
 };
 
 }  // namespace encloud
