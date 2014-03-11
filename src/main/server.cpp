@@ -9,7 +9,7 @@ namespace encloud
 //
 
 Server::Server (QObject *parent)
-    : libencloud::Server(parent, libencloud::Server::EncloudMode)
+    : libencloud::Server(parent, libencloud::EncloudMode)
     , _settings(NULL)
 {
     ENCLOUD_TRACE;
