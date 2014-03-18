@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QThread>
 
 #define ENCLOUD_UNUSED(x)   (x=x)
 
@@ -28,7 +29,8 @@
     do { \
         if (1) { \
             qDebug().nospace() << qPrintable(QDateTime::currentDateTime().toString()) \
-                    << '[' << levstr << "] [" << ENCLOUD_PKGNAME << ":" << __FILE__ << ":" \
+                    << " " << QThread::currentThreadId() \
+                    << " [" << levstr << "] [" << ENCLOUD_APP << ":" << __FILE__ << ":" \
                     << __FUNCTION__ << "():" << __LINE__ << "] " << msg; \
         } \
     } while (0);
