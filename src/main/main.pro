@@ -65,5 +65,6 @@ INSTALLS += target
 
 # command to run upon 'make check'
 # ENCLOUD_WRAP environment variable can be set to "gdb", "valgrind", etc
-# e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" && qmake -r
-check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src $$(ENCLOUD_WRAP) ./$$TARGET
+# e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" qmake -r
+# e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" ENCLOUD_ARGS="-t" qmake -r
+check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src $$(ENCLOUD_WRAP) ./$$TARGET $$(ENCLOUD_ARGS)

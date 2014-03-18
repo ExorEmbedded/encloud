@@ -29,11 +29,11 @@ public:
 
 private:
 
-    bool _isValid;
-
 #ifdef ENCLOUD_DISABLE_SERVICE
     Server *_server;
 #endif
+
+    bool _isValid;
 };
 
 }  // namespace encloud

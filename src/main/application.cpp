@@ -26,8 +26,9 @@ Application::Application (int argc, char **argv)
     ENCLOUD_ERR_IF (!Service::isValid());
 #else
     ENCLOUD_DBG("QtService disabled");
-    ENCLOUD_ERR_IF (_server = new Server(this));
+    _server = new Server(this);
     ENCLOUD_ERR_IF (_server == NULL);
+    ENCLOUD_ERR_IF (!_server->isValid());
     ENCLOUD_ERR_IF (_server->start());
 #endif
 
