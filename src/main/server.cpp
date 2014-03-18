@@ -10,6 +10,7 @@ namespace encloud
 
 Server::Server (QObject *parent)
     : libencloud::Server(parent, libencloud::EncloudMode)
+    , _isValid(false)
     , _settings(NULL)
 {
     ENCLOUD_TRACE;
@@ -22,6 +23,7 @@ Server::Server (QObject *parent)
 
     connect(this, SIGNAL(portBound(int)), this, SLOT(_portBound(int)));
 
+    _isValid = true;
 err:
     return;
 }

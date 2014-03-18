@@ -12,10 +12,22 @@ namespace encloud
 // start()/stop() to avoid QtService memory corruption
 Service::Service (int argc, char **argv)
     : QtService<QCoreApplication> (argc, argv, ENCLOUD_SVC_NAME)
+    , _logger(NULL)
     , _isValid(false)
     , _isRunning(false)
     , _server(NULL)
 {
+    _logger = new libencloud::Logger;
+    ENCLOUD_ERR_IF (_logger == NULL);
+
+    // create new logger in append mode because logger was already created in main()
+    ENCLOUD_ERR_IF (_logger->setPath(
+                libencloud::getCommonAppDataDir(ENCLOUD_PKGNAME_LOWER) + "/" + 
+                ENCLOUD_PKGNAME_LOWER + "-log.txt"));
+    ENCLOUD_ERR_IF (_logger->setExtraMode(QFile::Append));
+    ENCLOUD_ERR_IF (_logger->open());
+    ENCLOUD_ERR_IF (!_logger->isValid());
+
     ENCLOUD_TRACE;
 
     setServiceDescription(ENCLOUD_SVC_DESC);
@@ -27,11 +39,16 @@ Service::Service (int argc, char **argv)
     setStartupType(QtServiceController::AutoStartup);
 
     _isValid = true;
+
+err:
+    return;
 }
 
 Service::~Service ()
 {
     ENCLOUD_TRACE;
+
+    ENCLOUD_DELETE(_logger);
 
     stop();
 }
@@ -55,6 +72,7 @@ void Service::start ()
     _server = new Server(app);
     ENCLOUD_ERR_IF (_server == NULL);
 
+    ENCLOUD_ERR_IF (!_server->isValid());
     ENCLOUD_ERR_IF (_server->start());
 
     _isRunning = true;

@@ -3,6 +3,7 @@
 
 #include "qtservice.h"
 #include "server.h"
+#include <encloud/Logger>
 
 #define ENCLOUD_SVC_NAME    ENCLOUD_APP_FULL " Service"
 #define ENCLOUD_SVC_DESC    ENCLOUD_SVC_NAME " provides an API for Cloud functionality"
@@ -24,6 +25,7 @@ protected:
     void start ();
     void stop ();
 
+    libencloud::Logger *_logger;
     bool _isValid;
     bool _isRunning;
     Server *_server;

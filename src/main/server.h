@@ -15,6 +15,8 @@ public:
     Server (QObject *parent);
     ~Server ();
 
+    inline bool isValid () const { return _isValid; };
+
     //
     // overrides
     //
@@ -25,6 +27,7 @@ private slots:
     void _portBound (int port);
 
 private:
+    bool _isValid;
     QSettings *_settings;
 };
 

@@ -7,14 +7,15 @@
 
 int main (int argc, char **argv)
 {
+    // This logger lives:
+    // - throughout the application in noservice mode
+    // - until services is created in service mode (a new logger is created within service)
     libencloud::Logger logger;
-    logger.setPath(libencloud::getCommonAppDataDir(ENCLOUD_PKGNAME_LOWER) + "/" + 
-            ENCLOUD_PKGNAME_LOWER + "-log.txt");
-    ENCLOUD_RETURN_IF (logger.open() || 
-            !logger.isValid(),
-                EXIT_FAILURE);
-
-    ENCLOUD_TRACE; 
+    ENCLOUD_RETURN_IF (logger.setPath(libencloud::getCommonAppDataDir(ENCLOUD_PKGNAME_LOWER) + "/" + 
+            ENCLOUD_PKGNAME_LOWER + "-log.txt"), 
+            EXIT_FAILURE);
+    ENCLOUD_RETURN_IF (logger.open() || !logger.isValid(),
+            EXIT_FAILURE);
 
     qDebug() << "Starting " << qPrintable(encloud::info::versionInfo())
             << "rev: " << qPrintable(encloud::info::revision());
