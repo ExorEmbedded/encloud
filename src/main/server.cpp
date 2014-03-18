@@ -21,6 +21,8 @@ Server::Server (QObject *parent)
     _settings = new QSettings(QSettings::SystemScope, ENCLOUD_ORG, ENCLOUD_LIBENCLOUD_APP);
     ENCLOUD_ERR_IF (_settings == NULL);
 
+    ENCLOUD_DBG("System Settings file: " << _settings->fileName());
+
     connect(this, SIGNAL(portBound(int)), this, SLOT(_portBound(int)));
 
     _isValid = true;
