@@ -16,9 +16,9 @@ Server::Server (QObject *parent)
     ENCLOUD_TRACE;
 
     //
-    // port is read and written to libencloud settings
+    // port is read and written to libencloud settings (global)
     //
-    _settings = new QSettings(ENCLOUD_ORG, ENCLOUD_LIBENCLOUD_APP);
+    _settings = new QSettings(QSettings::SystemScope, ENCLOUD_ORG, ENCLOUD_LIBENCLOUD_APP);
     ENCLOUD_ERR_IF (_settings == NULL);
 
     connect(this, SIGNAL(portBound(int)), this, SLOT(_portBound(int)));
