@@ -24,10 +24,10 @@
 #define ENCLOUD_DELETE(ptr) do { if (ptr) { delete ptr; ptr = NULL; } } while(0)
 
 #define __ENCLOUD_NOP do {;} while (0)
-//if (!g_cfg || lev <= g_cfg->logLevel) 
+
 #define __ENCLOUD_MSG(lev, levstr, msg) \
     do { \
-        if (1) { \
+        if (lev <= g_libencloudLogLev) { \
             qDebug().nospace() << qPrintable(QDateTime::currentDateTime().toString()) \
                     << " " << QThread::currentThreadId() \
                     << " [" << levstr << "] [" << ENCLOUD_APP << ":" << __FILE__ << ":" \
