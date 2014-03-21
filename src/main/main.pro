@@ -44,10 +44,11 @@ win32 {
     }
     INCLUDEPATH += $$QTSERVICE_PATH/src
     DEPENDPATH += $$QTSERVICE_PATH/src
-    LIBS += -L$$QTSERVICE_PATH/lib -lQtSolutions_Service-headd
+    LIBS += -L$$QTSERVICE_PATH/lib
 } 
 # else:unix { use system paths }
-debug:LIBS += -lQtSolutions_Service-headd
+
+CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
 else:LIBS += -lQtSolutions_Service-head
 
 # libencloud
