@@ -43,6 +43,8 @@ bool Service::isValid () { return _isValid; }
 
 void Service::start ()
 {
+    QCoreApplication *app = NULL;
+
     if (_isRunning)
         return;
 
@@ -59,7 +61,7 @@ void Service::start ()
 
     ENCLOUD_TRACE;
 
-    QCoreApplication *app = application();
+    app = application();
     ENCLOUD_ERR_IF (app == NULL);
 
     _server = new Server(app);
