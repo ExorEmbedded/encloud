@@ -17,6 +17,35 @@ Service::Service (int argc, char **argv)
     , _isRunning(false)
     , _server(NULL)
 {
+
+    setServiceDescription(ENCLOUD_SVC_DESC);
+
+    // can be stopped, but not suspended
+    setServiceFlags(QtServiceBase::Default);
+
+    // autostart
+    setStartupType(QtServiceController::AutoStartup);
+
+    _isValid = true;
+}
+
+// SEE NOTE ABOVE
+Service::~Service ()
+{
+    ENCLOUD_TRACE;
+}
+
+bool Service::isValid () { return _isValid; } 
+
+//
+// protected methods
+//
+
+void Service::start ()
+{
+    if (_isRunning)
+        return;
+
     _logger = new libencloud::Logger;
     ENCLOUD_ERR_IF (_logger == NULL);
 
@@ -30,53 +59,24 @@ Service::Service (int argc, char **argv)
 
     ENCLOUD_TRACE;
 
-    setServiceDescription(ENCLOUD_SVC_DESC);
-
-    // can be stopped, but not suspended
-    setServiceFlags(QtServiceBase::Default);
-
-    // autostart
-    setStartupType(QtServiceController::AutoStartup);
-
-    _isValid = true;
-
-err:
-    return;
-}
-
-Service::~Service ()
-{
-    ENCLOUD_TRACE;
-
-    ENCLOUD_DELETE(_logger);
-
-    stop();
-}
-
-bool Service::isValid () { return _isValid; } 
-
-//
-// protected methods
-//
-
-void Service::start ()
-{
-    ENCLOUD_TRACE;
-
-    if (_isRunning)
-        return;
-
     QCoreApplication *app = application();
     ENCLOUD_ERR_IF (app == NULL);
 
     _server = new Server(app);
     ENCLOUD_ERR_IF (_server == NULL);
 
+    ENCLOUD_TRACE;
+
     ENCLOUD_ERR_IF (!_server->isValid());
     ENCLOUD_ERR_IF (_server->start());
 
     _isRunning = true;
+
+    ENCLOUD_TRACE;
+    return;
 err:
+    ENCLOUD_DELETE(_server);
+    ENCLOUD_DELETE(_logger);
     return;
 }
 
@@ -90,6 +90,8 @@ void Service::stop ()
     ENCLOUD_ERR_IF (_server->stop());
 err:
     ENCLOUD_DELETE (_server);
+    ENCLOUD_DELETE (_logger);
+    qApp->quit();
     return;
 }
 
