@@ -48,8 +48,10 @@ win32 {
 } 
 # else:unix { use system paths }
 
-CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
-else:LIBS += -lQtSolutions_Service-head
+!noservice {
+    CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
+    else:LIBS += -lQtSolutions_Service-head
+}
 
 # libencloud
 LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 

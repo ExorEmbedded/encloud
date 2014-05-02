@@ -1,4 +1,6 @@
-#include "service.h"
+#ifndef ENCLOUD_DISABLE_SERVICE
+#  include "service.h"
+#endif
 #include "common.h"
 #include "application.h"
 #include <encloud/Core>
