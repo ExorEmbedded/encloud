@@ -37,30 +37,34 @@ LIBS += $$PRE_TARGETDEPS
 # 
 
 # qtservice
-win32 {
-    QTSERVICE_PATH = $$SRCBASEDIR/../qt-solutions/qtservice
-    !exists($$QTSERVICE_PATH) { 
-        error("Missing QtService dependency - expected in $$QTSERVICE_PATH") 
-    }
-    INCLUDEPATH += $$QTSERVICE_PATH/src
-    DEPENDPATH += $$QTSERVICE_PATH/src
-    LIBS += -L$$QTSERVICE_PATH/lib
-} 
-# else:unix { use system paths }
-
 !noservice {
+    win32 {
+        QTSERVICE_PATH = $$SRCBASEDIR/../qt-solutions/qtservice
+        !exists($$QTSERVICE_PATH) { 
+            error("Missing QtService dependency - expected in $$QTSERVICE_PATH") 
+        }
+        INCLUDEPATH += $$QTSERVICE_PATH/src
+        DEPENDPATH += $$QTSERVICE_PATH/src
+        LIBS += -L$$QTSERVICE_PATH/lib
+    } 
+    # else:unix { use system paths }
+
     CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
     else:LIBS += -lQtSolutions_Service-head
 }
 
 # libencloud
-LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
-!exists($$LIBENCLOUD_PATH) { 
-    error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
+win32 {
+    LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
+    !exists($$LIBENCLOUD_PATH) { 
+        error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
+    }
+    INCLUDEPATH += $$LIBENCLOUD_PATH/include
+    LIBS += -L$$LIBENCLOUD_PATH/src/$$DESTDIR
+    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
 }
-INCLUDEPATH += $$LIBENCLOUD_PATH/include
-LIBS += -L$$LIBENCLOUD_PATH/src/$$DESTDIR -lencloud
-DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
+# else:unix { use system paths }
+LIBS += -lencloud
 
 # installation
 target.path = $${BINDIR}
