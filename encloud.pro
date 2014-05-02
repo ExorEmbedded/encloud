@@ -8,7 +8,7 @@ SUBDIRS += src
 check.depends = all
 
 # generate tar package
-TARFILE = $${PKGNAME}-$${VERSION}.tar.gz
+TARFILE = $${PKGNAME_LOWER}-$${VERSION}.tar.gz
 dist.target = dist
 dist.commands = @( \
                 echo "Making tar package $${TARFILE}"; \
@@ -28,10 +28,10 @@ dist.commands = @( \
                     find . -type f -not -name Makefile | \
                     xargs tar czf .$${TARFILE}; \
                 fi ; \
-                rm -rf $${PKGNAME}-$${VERSION}; \
-                mkdir $${PKGNAME}-$${VERSION}; \
-                tar xzf .$${TARFILE} -C $${PKGNAME}-$${VERSION}; \
-                tar czvf $${TARFILE} $${PKGNAME}-$${VERSION}; \
+                rm -rf $${PKGNAME_LOWER}-$${VERSION}; \
+                mkdir $${PKGNAME_LOWER}-$${VERSION}; \
+                tar xzf .$${TARFILE} -C $${PKGNAME_LOWER}-$${VERSION}; \
+                tar czvf $${TARFILE} $${PKGNAME_LOWER}-$${VERSION}; \
                 md5sum $${TARFILE} > $${TARFILE}.md5; \
                 rm -rf .$${TARFILE}; \
                 )
@@ -39,5 +39,5 @@ QMAKE_EXTRA_TARGETS += dist
 
 # override distclean so we can remove extra files
 redirect_distclean.target = distclean
-redirect_distclean.commands = rm -rf Makefile $${PKGNAME}-$${VERSION}*
+redirect_distclean.commands = rm -rf Makefile $${PKGNAME_LOWER}-$${VERSION}*
 QMAKE_EXTRA_TARGETS += redirect_distclean
