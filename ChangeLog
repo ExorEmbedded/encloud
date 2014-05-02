@@ -3,7 +3,7 @@ ChangeLog file for Endian Encloud Service
 Encloud 0.1.X:
 	- dist: lower case package name, added LICENSE file
 	- noservice: fixed compilation
-	- build: relative dependency paths only on win32
+	- build: relative dependency paths only on win32; don't depend on QtGui
 
 Encloud 0.1 (02/04/2014):
 	- First Beta Release

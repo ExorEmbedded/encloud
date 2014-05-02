@@ -67,6 +67,7 @@ CONFIG += qtjson  # GPL/self-contained
 
 QT += core
 QT += network
+QT -= gui
 
 
 #
