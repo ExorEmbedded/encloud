@@ -8,32 +8,36 @@ SUBDIRS += src
 check.depends = all
 
 # generate tar package
-TARFILE = $${PKGNAME_LOWER}-$${VERSION}.tar.gz
+TARFILE = $${PKGNAME_LOWER}-$${VERSION}.tar
+TARZIPFILE = $${TARFILE}.gz
 dist.target = dist
 dist.commands = @( \
-                echo "Making tar package $${TARFILE}"; \
+                echo "Making tar package $${TARZIPFILE}"; \
                 if [ -e .svn ]; then \
                     echo "found VCS: SVN"; \
                     find . -type f -not -iwholename '*.svn*' | \
                     xargs svn status -v 2>/dev/null | grep -v "^[?I]" | \
                     sed 's,^\\ ,-,' | sed 's,A*+,,' | \
                     tr -s "[:space:]" | cut -d '\\ ' -f 5 | \
-                    xargs tar czf .$${TARFILE}; \
+                    xargs tar czf .$${TARZIPFILE}; \
                 elif [ -e .git ]; then \
                     echo "found VCS: GIT"; \
-                    git ls-files | xargs tar czf .$${TARFILE}; \
+                    git rev-parse --short HEAD > .revision; \
+                    tar cf .$${TARFILE} .revision; \
+                    git ls-files | xargs tar rf .$${TARFILE}; \
+                    gzip .$${TARFILE}; \
                 else \
                     echo "[warn] no VCS found"; \
                     # not under VCS \
                     find . -type f -not -name Makefile | \
-                    xargs tar czf .$${TARFILE}; \
+                    xargs tar czf .$${TARZIPFILE}; \
                 fi ; \
                 rm -rf $${PKGNAME_LOWER}-$${VERSION}; \
                 mkdir $${PKGNAME_LOWER}-$${VERSION}; \
-                tar xzf .$${TARFILE} -C $${PKGNAME_LOWER}-$${VERSION}; \
-                tar czvf $${TARFILE} $${PKGNAME_LOWER}-$${VERSION}; \
-                md5sum $${TARFILE} > $${TARFILE}.md5; \
-                rm -rf .$${TARFILE}; \
+                tar xzf .$${TARZIPFILE} -C $${PKGNAME_LOWER}-$${VERSION}; \
+                tar czvf $${TARZIPFILE} $${PKGNAME_LOWER}-$${VERSION}; \
+                md5sum $${TARZIPFILE} > $${TARZIPFILE}.md5; \
+                rm -rf .$${TARZIPFILE}; \
                 )
 QMAKE_EXTRA_TARGETS += dist
 

@@ -17,4 +17,5 @@ release/
 src/main/encloud
 
 # dist-generated files
+.revision
 /encloud-*

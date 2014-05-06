@@ -97,7 +97,10 @@ DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
     DEFINES += ENCLOUD_VERSION_TAG=\\\"$$VERSION_TAG\\\"
 }
 exists(".git") {
-    DEFINES += ENCLOUD_REVISION=\\\"$$system(git rev-parse --short HEAD)\\\"
+    REVISION=$$system(git rev-parse --short HEAD)
+    DEFINES += ENCLOUD_REVISION=\\\"$${REVISION}\\\"
+} else {
+    DEFINES += ENCLOUD_REVISION=\\\"$$cat(.revision)\\\"
 }
 DEFINES += ENCLOUD_PKGNAME=\\\"$$PKGNAME\\\"
 DEFINES += ENCLOUD_PKGNAME_LOWER=\\\"$$PKGNAME_LOWER\\\"

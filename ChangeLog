@@ -4,6 +4,7 @@ Encloud 0.1.X:
 	- dist: lower case package name, added LICENSE file
 	- noservice: fixed compilation
 	- build: relative dependency paths only on win32; don't depend on QtGui
+	  generate .revision and use it if .git does not exist (build from dist)
 	- unix: /var/log/encloud for logs, /var/efw/encloud for storage
 
 Encloud 0.1 (02/04/2014):
