@@ -21,12 +21,18 @@
 #endif
 
 #ifndef ENCLOUD_PREFIX_PATH                             /* [overridable] */
-#define ENCLOUD_PREFIX_PATH          "/"
+#define ENCLOUD_PREFIX_PATH         "/"
 #endif
 #ifdef Q_OS_WIN32  // relative paths - refer to src/common/config.cpp
-#  define ENCLOUD_DATA_PREFIX        ""          // => %AppData% \ ENCLOUD_INSTALLDIR
+#  define ENCLOUD_DATA_PREFIX       ""          // => %AppData% \ ENCLOUD_INSTALLDIR
 #else  // absolute paths
-#  define ENCLOUD_DATA_PREFIX        "/var/lib/encloud/"
+#  define ENCLOUD_DATA_PREFIX       "/var/efw/encloud/"
+#endif
+
+#ifdef Q_OS_WIN32
+#  define ENCLOUD_LOG_FILE          ENCLOUD_PKGNAME_LOWER "-log.txt"
+#else
+#  define ENCLOUD_LOG_FILE          ENCLOUD_PKGNAME_LOWER ".log"
 #endif
 
 #endif

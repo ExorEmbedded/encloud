@@ -53,8 +53,8 @@ void Service::start ()
 
     // create new logger in append mode because logger was already created in main()
     ENCLOUD_ERR_IF (_logger->setPath(
-                libencloud::getCommonAppDataDir(ENCLOUD_PKGNAME_LOWER) + "/" + 
-                ENCLOUD_PKGNAME_LOWER + "-log.txt"));
+                libencloud::getCommonLogDir(ENCLOUD_PKGNAME_LOWER) + "/" +
+                ENCLOUD_LOG_FILE));
     ENCLOUD_ERR_IF (_logger->setExtraMode(QFile::Append));
     ENCLOUD_ERR_IF (_logger->open());
     ENCLOUD_ERR_IF (!_logger->isValid());
