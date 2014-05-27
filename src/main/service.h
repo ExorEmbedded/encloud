@@ -5,8 +5,8 @@
 #include "server.h"
 #include <encloud/Logger>
 
-#define ENCLOUD_SVC_NAME    ENCLOUD_APP_FULL " Service"
-#define ENCLOUD_SVC_DESC    ENCLOUD_SVC_NAME " provides an API for Cloud functionality"
+#define ENCLOUD_SVC_NAME    (ENCLOUD_APP_FULL + QString(" Service"))
+#define ENCLOUD_SVC_DESC    (ENCLOUD_SVC_NAME + QString(" provides an API for Cloud functionality"))
 
 namespace encloud 
 {

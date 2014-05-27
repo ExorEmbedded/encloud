@@ -60,11 +60,20 @@ win32 {
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
     INCLUDEPATH += $$LIBENCLOUD_PATH/include
-    LIBS += -L$$LIBENCLOUD_PATH/src/$$DESTDIR
-    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
+
+    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src $$LIBENCLOUD_PATH/about
+
+    # must be administrator to run it
+    QMAKE_LFLAGS += "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
+
+    CONFIG(debug,debug|release):PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloudd.lib $$LIBENCLOUD_PATH/about/$$DESTDIR/aboutd.lib
+    else:PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud.lib $$LIBENCLOUD_PATH/about/$$DESTDIR/about.lib
+
+    LIBS += $$PRE_TARGETDEPS
+} else {
+    # else:unix { use system paths }
+    LIBS += -lencloud -labout
 }
-# else:unix { use system paths }
-LIBS += -lencloud
 
 # installation
 target.path = $${BINDIR}
