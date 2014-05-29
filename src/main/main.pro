@@ -49,8 +49,7 @@ LIBS += $$PRE_TARGETDEPS
     } 
     # else:unix { use system paths }
 
-    CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
-    else:LIBS += -lQtSolutions_Service-head
+    LIBS += -lQtSolutions_Service-head$${DBG_SUFFIX}
 }
 
 # libencloud
@@ -66,8 +65,8 @@ win32 {
     # must be administrator to run it
     QMAKE_LFLAGS += "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
 
-    CONFIG(debug,debug|release):PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloudd.lib $$LIBENCLOUD_PATH/about/$$DESTDIR/aboutd.lib
-    else:PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud.lib $$LIBENCLOUD_PATH/about/$$DESTDIR/about.lib
+    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud$${DBG_SUFFIX}.lib
+    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/about/$$DESTDIR/about$${DBG_SUFFIX}.lib
 
     LIBS += $$PRE_TARGETDEPS
 } else {

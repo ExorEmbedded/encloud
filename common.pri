@@ -73,6 +73,14 @@ QT += core
 QT += network
 QT -= gui
 
+# suffix for libraries
+win32 {
+    CONFIG(debug,debug|release) {
+        DBG_SUFFIX = d
+    }
+} else {
+    DBG_SUFFIX =
+}
 
 #
 # custom compilation macros and flags
