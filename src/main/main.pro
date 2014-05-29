@@ -49,8 +49,7 @@ LIBS += $$PRE_TARGETDEPS
     } 
     # else:unix { use system paths }
 
-    CONFIG(debug,debug|release):LIBS += -lQtSolutions_Service-headd
-    else:LIBS += -lQtSolutions_Service-head
+    LIBS += -lQtSolutions_Service-head$${DBG_SUFFIX}
 }
 
 # libencloud
@@ -60,11 +59,20 @@ win32 {
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
     INCLUDEPATH += $$LIBENCLOUD_PATH/include
-    LIBS += -L$$LIBENCLOUD_PATH/src/$$DESTDIR
-    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
+
+    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src $$LIBENCLOUD_PATH/about
+
+    # must be administrator to run it
+    QMAKE_LFLAGS += "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
+
+    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud$${DBG_SUFFIX}.lib
+    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/about/$$DESTDIR/about$${DBG_SUFFIX}.lib
+
+    LIBS += $$PRE_TARGETDEPS
+} else {
+    # else:unix { use system paths }
+    LIBS += -lencloud -labout
 }
-# else:unix { use system paths }
-LIBS += -lencloud
 
 # installation
 target.path = $${BINDIR}

@@ -17,6 +17,10 @@
 # [ Feature Disabling ]
 #
 #   noservice   disable service functionality (simple QtCoreApplication)
+#
+#
+# [ About definitions ]
+#   about       use brand info from about dll, instead of using default for major brand (exor/endian)
 
 
 # Local configuration overrides. Sample content:
@@ -69,6 +73,14 @@ QT += core
 QT += network
 QT -= gui
 
+# suffix for libraries
+win32 {
+    CONFIG(debug,debug|release) {
+        DBG_SUFFIX = d
+    }
+} else {
+    DBG_SUFFIX =
+}
 
 #
 # custom compilation macros and flags
@@ -114,6 +126,8 @@ debug:unix {
     QMAKE_CXXFLAGS += -g
 }
 
+about       { DEFINES += LIBENCLOUD_USE_ABOUT }
+
 #
 # build settings
 # 
@@ -127,8 +141,8 @@ DEPENDPATH += $$INCLUDEPATH
 # install dirs
 windows {  # used only for dev - installer handles positioning on target
            # and runtime paths are defined in src/common/defaults.h
-    INSTALLDIR = $${PROGDIR}
-    BINDIR = $${INSTALLDIR}/bin
+    INSTALLDIR = "$${PROGDIR}"
+    BINDIR = "$${INSTALLDIR}/bin"
 } else {  # used for dev and production
     INSTALLDIR = /usr/local
     BINDIR = /usr/sbin

@@ -1,5 +1,8 @@
 ChangeLog file for Endian Encloud Service
 
+Encloud 0.1.X:
+    - [CONNECT-142,JMC-17] Support for N-branding
+
 Encloud 0.1.1 (27/05/2014):
 	- dist: lower case package name, added LICENSE file
 	- noservice: fixed compilation
