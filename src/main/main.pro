@@ -53,8 +53,8 @@ LIBS += $$PRE_TARGETDEPS
 }
 
 # libencloud
+LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
 win32 {
-    LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
     !exists($$LIBENCLOUD_PATH) { 
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
@@ -71,6 +71,7 @@ win32 {
     LIBS += $$PRE_TARGETDEPS
 } else {
     # else:unix { use system paths }
+    LIBS += -L$$LIBENCLOUD_PATH/about
     LIBS += -lencloud -labout
 }
 
@@ -82,4 +83,5 @@ INSTALLS += target
 # ENCLOUD_WRAP environment variable can be set to "gdb", "valgrind", etc
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" qmake -r
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" ENCLOUD_ARGS="-t" qmake -r
-check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src $$(ENCLOUD_WRAP) ./$$TARGET $$(ENCLOUD_ARGS)
+check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src:$$SRCBASEDIR/../libencloud/about \
+                 $$(ENCLOUD_WRAP) ./$$TARGET $$(ENCLOUD_ARGS)
