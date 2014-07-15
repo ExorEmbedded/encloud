@@ -10,7 +10,7 @@
 # 
 # Note: mode selection has implications on behaviour and packaging!
 #
-#   modeqic     Endian 4i Connect / Exor JMConnect mode
+#   modeqcc     Endian 4i Connect / Exor JMConnect mode
 #   modeece     Endian Cloud Enabler mode
 #   modesece    Software Endian Cloud Enabler mode
 #
@@ -25,7 +25,7 @@
 
 # Local configuration overrides. Sample content:
 #     CONFIG += endian
-#     CONFIG += modeqic
+#     CONFIG += modeqcc
 LOCALCONFIG=$$(HOME)/.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
 LOCALCONFIG=.qmake.pri
@@ -37,15 +37,15 @@ exists($${LOCALCONFIG}): include($${LOCALCONFIG})
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
 
-PRODUCT_4IC="4iConnect"
+PRODUCT_ECC="ConnectClient"
 PRODUCT_JMC="JMConnect"
 PRODUCT_ENCLOUD="Encloud"
 PRODUCT_SECE="SECE"  # FIXME
 
 # only x.x.x.x format allowed, where x is a number
-VERSION = 0.1.2
-#VERSION_TAG = Wip  # Dev version - comment this for official release!
-VERSION_TAG = Beta  # Beta version - comment this for official releases!
+VERSION = 0.2
+VERSION_TAG = Wip  # Dev version - comment this for official release!
+#VERSION_TAG = Beta  # Beta version - comment this for official releases!
 
 endian {
     ORG = Endian
@@ -87,10 +87,10 @@ win32 {
 # custom compilation macros and flags
 # 
 
-modeqic {
+modeqcc {
     endian {
-        PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_4IC}
-        DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_4IC}\\\"
+        PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_ECC}
+        DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_ECC}\\\"
     } else {
         PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_JMC}
         DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_JMC}\\\"
@@ -102,7 +102,7 @@ modeqic {
     PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_SECE}
     DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_SECE}\\\"
 } else {
-    error("a mode must be defined (CONFIG += modeqic|modeece|modesece)!")
+    error("a mode must be defined (CONFIG += modeqcc|modeece|modesece)!")
 }
 
 DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
