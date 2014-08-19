@@ -1,6 +1,6 @@
 ChangeLog file for Endian Encloud Service
 
-Encloud 0.2:
+Encloud 0.2 (19/08/2014):
 	- [CONNECT-144] renaming: modeqic => modeqcc, QIC -> QCC
 
 Encloud 0.1.2 (10/06/2014):
