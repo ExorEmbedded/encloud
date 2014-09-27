@@ -1,5 +1,8 @@
 ChangeLog file for Endian Encloud Service
 
+next:
+	- [CONNECT-166] Avoid possible side effects due to bad QApplication prototype
+
 Encloud 0.2 (19/08/2014):
 	- [CONNECT-144] renaming: modeqic => modeqcc, QIC -> QCC
 

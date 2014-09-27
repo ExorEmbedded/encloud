@@ -12,7 +12,7 @@ namespace encloud
 // public methods
 //
 
-Application::Application (int argc, char **argv)
+Application::Application (int &argc, char **argv)
 #ifndef ENCLOUD_DISABLE_SERVICE
     : Service(argc, argv)
 #else

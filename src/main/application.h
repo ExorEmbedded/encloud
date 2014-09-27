@@ -22,7 +22,9 @@ class Application :
 
 public:
 
-    Application (int argc, char **argv);
+    // yes this it weird, but QApplication must take a reference to argc
+    // (qt-project.org/doc/qt-4.8/qapplication.html)
+    Application (int &argc, char **argv);
     ~Application ();
 
     bool isValid ();
