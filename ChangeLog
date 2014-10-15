@@ -1,6 +1,8 @@
 ChangeLog file for Endian Encloud Service
 
 next:
+
+Encloud 0.2.1 (15/10/2014):
 	- [CONNECT-166] Avoid possible side effects due to bad QApplication prototype
 	- main: anticipate Application creation so Logger may emit signals
 
