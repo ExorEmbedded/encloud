@@ -38,7 +38,7 @@ PKGNAME = Encloud
 PKGNAME_LOWER = encloud
 
 PRODUCT_ECC="ConnectClient"
-PRODUCT_JMC="JMConnect"
+PRODUCT_JMC="HMIConnect"
 PRODUCT_ENCLOUD="Encloud"
 PRODUCT_SECE="SECE"  # FIXME
 
