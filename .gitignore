@@ -8,7 +8,6 @@
 *.pdb
 *.pro.user
 *.rc
-.qmake.pri
 Makefile
 Makefile.Release
 Makefile.Debug
