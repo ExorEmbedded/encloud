@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# /etc/init.d/jmuconfig: start and stop the Encloud service
+
+NAME="encloud"
+DAEMON="/usr/sbin/${NAME}"
+PIDFILE="/var/run/${NAME}.pid"
+ENCLOUD_URL="http://localhost:4804/api/v1/cloud"
+
+die()
+{
+    echo $@
+    exit 1
+}
+
+do_start()
+{
+    if [ -e ${PIDFILE} ]; then
+        echo "Already running (${PIDFILE})"
+        return
+    fi
+
+    echo "Starting ${NAME}"
+
+    start-stop-daemon --start --background \
+        --pidfile "${PIDFILE}" --make-pidfile --exec "${DAEMON}"
+    [ $? -ne 0 ] && die "Failed starting daemon"
+
+    while true; do
+       # open VPN tunnel via cloud API
+       wget -O - --post-data "action=start" "${ENCLOUD_URL}" >/dev/null 2>&1
+       [ $? -eq 0 ] && break
+       usleep 100000
+    done
+
+    echo "."
+}
+
+do_stop()
+{
+    echo "Stopping ${NAME}"
+
+    start-stop-daemon --stop --oknodo --pidfile "${PIDFILE}"
+    [ $? -ne 0 ] && die "Failed stopping daemon"
+
+    rm -f "${PIDFILE}"
+
+    echo "."
+}
+
+case "$1" in
+
+  start)
+    do_start
+    ;;
+
+  stop)
+    do_stop
+    ;;
+
+  restart)
+
+    do_stop
+    sleep 2
+    do_start
+
+    echo "."
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/${NAME} {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
