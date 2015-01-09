@@ -23,7 +23,9 @@ do_start()
     echo "Starting ${NAME}"
 
     start-stop-daemon --start --background \
-        --pidfile "${PIDFILE}" --make-pidfile --exec "${DAEMON}"
+        --pidfile "${PIDFILE}" --make-pidfile --exec /bin/bash -- \
+        -c "${DAEMON} 2>&1 | logger -t encloud"
+
     [ $? -ne 0 ] && die "Failed starting daemon"
 
     while true; do
@@ -40,7 +42,10 @@ do_stop()
 {
     echo "Stopping ${NAME}"
 
-    start-stop-daemon --stop --oknodo --pidfile "${PIDFILE}"
+    # since we started with bash make sure children are killed
+    [ -e ${PIDFILE} ] && pkill -P $(cat "${PIDFILE}")
+
+    start-stop-daemon --stop --oknodo --pidfile "${PIDFILE}" >/dev/null 2>&1
     [ $? -ne 0 ] && die "Failed stopping daemon"
 
     rm -f "${PIDFILE}"
