@@ -4,6 +4,11 @@ TEMPLATE = subdirs
 
 SUBDIRS += src
 
+# init script used only on linux
+unix {
+    SUBDIRS += etc
+}
+
 # tests depend on build
 check.depends = all
 

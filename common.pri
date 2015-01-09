@@ -137,9 +137,11 @@ windows {  # used only for dev - installer handles positioning on target
            # and runtime paths are defined in src/common/defaults.h
     INSTALLDIR = "$${PROGDIR}"
     BINDIR = "$${INSTALLDIR}/bin"
+    CONFDIR = "$${INSTALLDIR}/$${PKGNAME}/etc"
 } else {  # used for dev and production
     INSTALLDIR = /usr/local
     BINDIR = /usr/sbin
+    CONFDIR = /etc
 }
 
 #message("BINDIR: $$BINDIR")
