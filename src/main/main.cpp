@@ -9,9 +9,8 @@ int main (int argc, char **argv)
 {
     encloud::Application app(argc, argv);
 
-    // This logger lives:
-    // - throughout the application in noservice mode
-    // - until services is created in service mode (a new logger is created within service)
+#ifndef ENCLOUD_DISABLE_SERVICE
+    // This logger lives until service is created (a new logger is created within service)
     libencloud::Logger logger;
     ENCLOUD_RETURN_IF (logger.setPath(
                 libencloud::getCommonLogDir(ENCLOUD_PKGNAME_LOWER) + "/" +
@@ -19,6 +18,7 @@ int main (int argc, char **argv)
             EXIT_FAILURE);
     ENCLOUD_RETURN_IF (logger.open() || !logger.isValid(),
             EXIT_FAILURE);
+#endif
 
     ENCLOUD_RETURN_IF (!app.isValid(), EXIT_FAILURE);
 
