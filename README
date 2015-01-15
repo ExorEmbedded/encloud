@@ -17,15 +17,11 @@ Follow libencloud/README.
 
 [ QtService ]
 
-Clone repo:
-    $ git clone git://qt.gitorious.org/qt-solutions/qt-solutions
+Clone qt-solutions repo, then
     $ cd qt-solutions\qtservice
 
-Get reference tag:
-    $ git checkout fd22bee
-
 Configure for DLLs:
-    $ echo "SOLUTIONS_LIBRARY = yes" > config.pri
+    $ ./configure -library
 
 QtCreator:
     - load and build qtservice
