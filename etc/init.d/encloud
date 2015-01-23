@@ -28,12 +28,10 @@ do_start()
 
     [ $? -ne 0 ] && die "Failed starting daemon"
 
-    while true; do
-       # open VPN tunnel via cloud API
-       wget -O - --post-data "action=start" "${ENCLOUD_URL}" >/dev/null 2>&1
-       [ $? -eq 0 ] && break
-       usleep 100000 2>/dev/null || sleep 0.1
-    done
+    sleep 1
+
+    # open VPN tunnel via cloud API
+    wget -O - --post-data "action=start" "${ENCLOUD_URL}" >/dev/null 2>&1
 
     echo "."
 }
