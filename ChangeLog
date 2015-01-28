@@ -1,12 +1,12 @@
 ChangeLog file for Endian Encloud Service
 
-next:
+Encloud 0.2.3 (28/01/2015):
 	- build: when building from sratch remove only files ignored by git
 	  (so local files such as .qmake.pri are kept)
 	- etc: new init script
 	- contrib: deploy script (ECE,SECE)
 
-Encloud 0.2.2:
+Encloud 0.2.2 (29/10/2014):
 	- [CONNECT-169] Rename to Endian Connect App and Endian Connect Service
 
 Encloud 0.2.1 (15/10/2014):
