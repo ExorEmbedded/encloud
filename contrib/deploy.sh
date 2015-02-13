@@ -10,10 +10,10 @@
 [ "${MODE}" = "sece" ] && scp /etc/xdg/Exor/libencloud.conf usom:/etc/qt4/Exor/libencloud.conf
 
 # copy initialization certificates
-ssh usom mkdir -p /var/lib/encloud
-scp /var/lib/encloud/init* usom:/var/lib/encloud
+ssh usom sudo mkdir -p /var/lib/encloud
+rsync -a --rsync-path="sudo rsync" /var/lib/encloud/init* usom:/var/lib/encloud/
 
 # copy switchboard host and restart service
-ssh usom "/etc/init.d/encloud restart; \
+ssh usom "sudo /etc/init.d/encloud restart; \
         grep switchboard-host /etc/hosts 2>/dev/null || \
-            echo "${HOST} switchboard-host" >> /etc/hosts"
+            echo "${HOST} switchboard-host" | sudo tee -a /etc/hosts"
