@@ -4,6 +4,7 @@ TEMPLATE = app
 
 # testing
 CONFIG += console
+CONFIG -= app_bundle
 
 TARGET = $$PKGNAME_LOWER
 
