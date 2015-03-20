@@ -1,6 +1,7 @@
 *~
 *.o
 *.a
+*.app
 *.so*
 *.log
 *.out
