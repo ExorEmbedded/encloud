@@ -132,12 +132,6 @@ SRCBASEDIR = $$PWD
 INCLUDEPATH += $$SRCBASEDIR/src/common
 DEPENDPATH += $$INCLUDEPATH
 
-# extra system paths
-INCLUDEPATH += $$[QT_INSTALL_DATA]/usr/include
-INCLUDEPATH += $$[QT_INSTALL_DATA]/usr/include/qt4
-
-LIBPATH += $$[QT_INSTALL_DATA]/usr/lib
-
 # install dirs
 windows {  # used only for dev - installer handles positioning on target
            # and runtime paths are defined in src/common/defaults.h

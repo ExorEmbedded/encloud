@@ -28,10 +28,9 @@ do_start()
 
     [ $? -ne 0 ] && die "Failed starting daemon"
 
-    sleep 1
-
-    # open VPN tunnel via cloud API
-    wget -O - --post-data "action=start" "${ENCLOUD_URL}" >/dev/null 2>&1
+    #sleep 1
+    ## open VPN tunnel via cloud API
+    #wget -O - --post-data "action=start" "${ENCLOUD_URL}" >/dev/null 2>&1
 
     echo "."
 }
@@ -40,7 +39,7 @@ do_stop()
 {
     echo "Stopping ${NAME}"
 
-    wget -O - --post-data "action=stop" "${ENCLOUD_URL}" >/dev/null 2>&1
+    #wget -O - --post-data "action=stop" "${ENCLOUD_URL}" >/dev/null 2>&1
 
     # since we started with bash make sure children are killed
     [ -e ${PIDFILE} ] && pkill -P $(cat "${PIDFILE}")
