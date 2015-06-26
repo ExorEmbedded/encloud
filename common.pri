@@ -132,6 +132,13 @@ SRCBASEDIR = $$PWD
 INCLUDEPATH += $$SRCBASEDIR/src/common
 DEPENDPATH += $$INCLUDEPATH
 
+# extra dependency paths 
+# TODO: QT_INSTALL_PREFIX is native Qt build directory (not valid for cross-compile) => use a staging path
+macx {
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/usr/include
+    LIBPATH += $$[QT_INSTALL_PREFIX]/usr/lib
+}
+
 # install dirs
 windows {  # used only for dev - installer handles positioning on target
            # and runtime paths are defined in src/common/defaults.h
