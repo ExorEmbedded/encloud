@@ -45,8 +45,11 @@ endian {
 } else:exor {
     ORG = Exor
     DEFINES += ENCLOUD_EXOR
+} else:panda {
+    ORG = Panda
+    DEFINES += ENCLOUD_PANDA
 } else {
-    error("organisation must be defined (CONFIG += endian|exor)!")
+    error("an organization must be specified in CONFIG!")
 }
 
 unix:CONFIG -= debug
@@ -82,10 +85,10 @@ win32 {
 # 
 
 modeqcc {
-    endian {
-        PRODUCT_DIR="ConnectApp"
-    } else {
+    exor {
         PRODUCT_DIR="HMIConnect"
+    } else {  # endian, panda
+        PRODUCT_DIR="ConnectApp"
     }
 } else:modeece {
     PRODUCT_DIR="Encloud"

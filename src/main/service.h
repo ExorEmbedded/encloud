@@ -5,11 +5,12 @@
 #include "server.h"
 #include <encloud/Logger>
 
-#ifdef ENCLOUD_ENDIAN
-// changed to follow new Connect Client App naming
-#  define ENCLOUD_SVC_NAME  "Endian Connect Service"
-#else
+#ifdef ENCLOUD_EXOR
 #  define ENCLOUD_SVC_NAME  (ENCLOUD_APP_FULL + QString(" Service"))
+#else
+#  define ENCLOUD_NEW_NAME    "Connect Service"
+// changed to follow new Connect App naming
+#  define ENCLOUD_SVC_NAME  ENCLOUD_ORG " " ENCLOUD_NEW_NAME
 #endif
 
 #define ENCLOUD_SVC_DESC    (ENCLOUD_SVC_NAME + QString(" provides an API for Cloud functionality"))
