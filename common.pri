@@ -22,6 +22,7 @@
 # [ About definitions ]
 #   about       use brand info from about dll, instead of using default for major brand (exor/endian)
 
+SRCBASEDIR = $$PWD
 
 # Local configuration overrides. Sample content:
 #     CONFIG += endian
@@ -30,6 +31,8 @@ LOCALCONFIG=$$(HOME)/.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
 LOCALCONFIG=.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
+
+include($${SRCBASEDIR}/defines.pri)
 
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
@@ -40,13 +43,10 @@ VERSION = 0.2.3
 #VERSION_TAG = Beta  # Beta version - comment this for official releases!
 
 endian {
-    ORG = Endian
     DEFINES += ENCLOUD_ENDIAN
 } else:exor {
-    ORG = Exor
     DEFINES += ENCLOUD_EXOR
 } else:panda {
-    ORG = Panda
     DEFINES += ENCLOUD_PANDA
 } else {
     error("an organization must be specified in CONFIG!")
@@ -84,20 +84,6 @@ win32 {
 # custom compilation macros and flags
 # 
 
-modeqcc {
-    exor {
-        PRODUCT_DIR="HMIConnect"
-    } else {  # endian, panda
-        PRODUCT_DIR="ConnectApp"
-    }
-} else:modeece {
-    PRODUCT_DIR="Encloud"
-} else:modesece {
-    PRODUCT_DIR="SECE"
-} else {
-    error("a mode must be defined (CONFIG += modeqcc|modeece|modesece)!")
-}
-
 PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_DIR}
 DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_DIR}\\\"
 
@@ -128,8 +114,6 @@ about       { DEFINES += LIBENCLOUD_USE_ABOUT }
 #
 # build settings
 # 
-
-SRCBASEDIR = $$PWD
 
 # dependency for common headers, etc
 INCLUDEPATH += $$SRCBASEDIR/src/common
