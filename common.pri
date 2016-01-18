@@ -5,6 +5,9 @@
 #   endian      Endian build - used for local install paths
 #   exor        Exor build - used for local install paths
 #   debug       compile libraries with debugging symbols
+#   splitdeps   Dependencies are split into different parts of the system
+#               (Default behaviour is to package all dependencies together into a self-contained package/bundle
+#               Split mode is used when dependencies are handled as separate packages - e.g. Yocto Encloud services)
 #
 # [ Modes ]
 # 

@@ -55,11 +55,11 @@ LIBS += $$PRE_TARGETDEPS
 
 # libencloud
 LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
+INCLUDEPATH += $$LIBENCLOUD_PATH/include
 win32 {
     !exists($$LIBENCLOUD_PATH) { 
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
-    INCLUDEPATH += $$LIBENCLOUD_PATH/include
 
     DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src $$LIBENCLOUD_PATH/about
 
@@ -71,8 +71,12 @@ win32 {
 
     LIBS += $$PRE_TARGETDEPS
 } else {
-    # else:unix { use system paths }
-    LIBS += -L$$LIBENCLOUD_PATH/about
+    !splitdeps {
+        about {
+            LIBS += -L$$LIBENCLOUD_PATH/about
+        }
+        LIBS += -L$$LIBENCLOUD_PATH/src
+    }
     LIBS += -lencloud -labout
 }
 
