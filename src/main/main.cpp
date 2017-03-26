@@ -1,3 +1,4 @@
+#include <QTextCodec>
 #include <encloud/Common>
 #include <encloud/Info>
 #include <encloud/Logger>
@@ -24,6 +25,13 @@ int main (int argc, char **argv)
 
     qDebug() << "Starting " << qPrintable(encloud::info::versionInfo())
             << "rev: " << qPrintable(encloud::info::revision());
+
+    // Set Codec for translations and C strings to UTF-8
+    // NOTE: Qt4-specific, no longer needed in Qt5
+    QTextCodec *utf8Codec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForTr(utf8Codec);
+    QTextCodec::setCodecForCStrings(utf8Codec);
+    QTextCodec::setCodecForLocale(utf8Codec);
 
     ENCLOUD_ERR_IF (app.exec());
 
