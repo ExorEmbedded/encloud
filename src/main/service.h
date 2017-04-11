@@ -3,6 +3,7 @@
 
 #include "qtservice.h"
 #include "server.h"
+#include "application.h"
 #include <encloud/Logger>
 
 #ifdef ENCLOUD_EXOR
@@ -18,7 +19,13 @@
 namespace encloud 
 {
 
-class Service : public QObject, public QtService<QCoreApplication>
+class Service 
+    : public QObject
+#ifndef ENCLOUD_DISABLE_SERVICE
+      , public QtService<Application>
+#else
+      , public QCoreApplication
+#endif
 {
     Q_OBJECT
 
@@ -27,10 +34,14 @@ public:
     ~Service ();
 
     bool isValid ();
+    int exec ();
 
 protected:
+
+#ifndef ENCLOUD_DISABLE_SERVICE
     void start ();
     void stop ();
+#endif
 
     libencloud::Logger *_logger;
     bool _isValid;
