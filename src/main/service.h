@@ -1,7 +1,9 @@
 #ifndef _ENCLOUD_SERVICE_H_
 #define _ENCLOUD_SERVICE_H_
 
-#include "qtservice.h"
+#ifndef ENCLOUD_DISABLE_SERVICE
+#  include "qtservice.h"
+#endif
 #include "server.h"
 #include "application.h"
 #include <encloud/Logger>
@@ -20,11 +22,10 @@ namespace encloud
 {
 
 class Service 
-    : public QObject
 #ifndef ENCLOUD_DISABLE_SERVICE
-      , public QtService<Application>
+    : public QObject, public QtService<Application>
 #else
-      , public QCoreApplication
+    : public QCoreApplication
 #endif
 {
     Q_OBJECT

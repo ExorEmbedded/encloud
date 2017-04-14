@@ -41,6 +41,9 @@ Service::Service (int argc, char **argv)
 #endif
 
     _isValid = true;
+
+err:
+    return;
 }
 
 // SEE NOTE ABOVE
@@ -60,8 +63,9 @@ int Service::exec ()
 {
 #ifdef ENCLOUD_DISABLE_SERVICE
     return QCoreApplication::exec();
-#endif
+#else
     return QtService<Application>::exec();
+#endif
 } 
 
 //

@@ -16,10 +16,8 @@ HEADERS += application.h
 SOURCES += server.cpp
 HEADERS += server.h
 
-!noservice {
-    SOURCES += service.cpp
-    HEADERS += service.h
-}
+SOURCES += service.cpp
+HEADERS += service.h
 
 #
 # local libraries
