@@ -87,7 +87,6 @@ win32 {
 # custom compilation macros and flags
 # 
 
-PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_DIR}
 DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_DIR}\\\"
 
 DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
@@ -129,16 +128,22 @@ macx {
     LIBPATH += $$[QT_INSTALL_PREFIX]/usr/lib
 }
 
+# 
 # install dirs
-windows {  # used only for dev - installer handles positioning on target
-           # and runtime paths are defined in src/common/defaults.h
-    INSTALLDIR = "$${PROGDIR}"
-    BINDIR = "$${INSTALLDIR}/bin"
+# 
+
+# overrides for Connect packaging
+CONNECT_DEFINES=$${SRCBASEDIR}/../connectapp/defines.pri
+exists($${CONNECT_DEFINES}): include($${CONNECT_DEFINES})
+
+# local overrides
+windows {
     CONFDIR = "$${INSTALLDIR}/$${PKGNAME}/etc"
-} else {  # used for dev and production
-    INSTALLDIR = /usr/local
-    BINDIR = /usr/sbin
-    CONFDIR = /etc
+} unix {  # used for dev and production
+    splitdeps {
+        BINDIR = /usr/sbin
+        CONFDIR = /etc
+    }
 }
 
 #message("BINDIR: $$BINDIR")

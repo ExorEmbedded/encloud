@@ -1,10 +1,6 @@
 modeqcc {
     !splitdeps {
-        exor {
-            PRODUCT_SRC = $$SRCBASEDIR/../jmconnect
-        } else {  # endian, panda
-            PRODUCT_SRC = $$SRCBASEDIR/../connectapp
-        }
+        PRODUCT_SRC = $$SRCBASEDIR/../connectapp
         include($${PRODUCT_SRC}/defines.pri)
     } else {
         # special case for Yocto - currently we use QCC mode also on devices
