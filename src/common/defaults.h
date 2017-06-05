@@ -12,11 +12,11 @@
 static char libEncloudFullAppNameBuffer[256];
 #define ENCLOUD_APP_FULL            LibEncloudFullAppName(libEncloudFullAppNameBuffer, ENCLOUD_APP )
 
-// e.g Endian/ConnectApp, Exor/JMConnect
+// e.g Endian/ConnectApp, Exor/JMCloudConnect
 static char libEncloudProductDirBuffer[512];
 #define ENCLOUD_PRODUCTDIR          LibEncloudProductDir(libEncloudProductDirBuffer, ENCLOUD_ORG, ENCLOUD_PRODUCT)
 
-// e.g Endian/ConnectApp/encloud | Exor/JMConnect/encloud
+// e.g Endian/ConnectApp/encloud | Exor/JMCloudConnect/encloud
 static char libEncloudInstallDirBuffer[512];
 #define ENCLOUD_INSTALLDIR          LibEncloudInstallDir(libEncloudInstallDirBuffer, ENCLOUD_PRODUCTDIR, ENCLOUD_PKGNAME_LOWER)
 
@@ -24,10 +24,10 @@ static char libEncloudInstallDirBuffer[512];
 
 #define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
 
-// e.g Endian/ConnectApp, Exor/JMConnect
+// e.g Endian/ConnectApp, Exor/JMCloudConnect
 #define ENCLOUD_PRODUCTDIR          ENCLOUD_ORG "/" ENCLOUD_PRODUCT
 
-// e.g Endian/ConnectApp/encloud | Exor/JMConnect/encloud
+// e.g Endian/ConnectApp/encloud | Exor/JMCloudConnect/encloud
 #define ENCLOUD_INSTALLDIR          ENCLOUD_PRODUCTDIR "/" ENCLOUD_PKGNAME_LOWER
 
 #endif

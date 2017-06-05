@@ -2,8 +2,6 @@
 #
 # [ General ]
 #
-#   endian      Endian build - used for local install paths
-#   exor        Exor build - used for local install paths
 #   debug       compile libraries with debugging symbols
 #   splitdeps   Dependencies are split into different parts of the system
 #               (Default behaviour is to package all dependencies together into a self-contained package/bundle
@@ -13,7 +11,7 @@
 # 
 # Note: mode selection has implications on behaviour and packaging!
 #
-#   modeqcc     Endian Connect App / Exor JMConnect mode
+#   modeqcc     Endian Connect App / Exor JMCloudConnect mode
 #   modeece     Endian Cloud Enabler mode
 #   modesece    Software Endian Cloud Enabler mode
 #
@@ -28,7 +26,6 @@
 SRCBASEDIR = $$PWD
 
 # Local configuration overrides. Sample content:
-#     CONFIG += endian
 #     CONFIG += modeqcc
 LOCALCONFIG=$$(HOME)/.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
@@ -44,16 +41,6 @@ PKGNAME_LOWER = encloud
 VERSION = 0.4.0
 #VERSION_TAG = Wip  # Dev version - comment this for official release!
 #VERSION_TAG = Beta  # Beta version - comment this for official releases!
-
-endian {
-    DEFINES += ENCLOUD_ENDIAN
-} else:exor {
-    DEFINES += ENCLOUD_EXOR
-} else:panda {
-    DEFINES += ENCLOUD_PANDA
-} else {
-    error("an organization must be specified in CONFIG!")
-}
 
 unix:CONFIG -= debug
 CONFIG += ordered
