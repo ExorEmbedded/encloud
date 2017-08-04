@@ -88,7 +88,12 @@ exists(".git") {
 }
 DEFINES += ENCLOUD_PKGNAME=\\\"$$PKGNAME\\\"
 DEFINES += ENCLOUD_PKGNAME_LOWER=\\\"$$PKGNAME_LOWER\\\"
-DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
+
+xbrand {
+    DEFINES += ENCLOUD_ORG=\\\"\\\"
+} else {
+    DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
+}
 
 # custom flags
 noservice {

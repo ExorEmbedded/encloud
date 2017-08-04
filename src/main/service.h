@@ -8,7 +8,17 @@
 #include "application.h"
 #include <encloud/Logger>
 
-#define ENCLOUD_SVC_NAME  ENCLOUD_ORG " " "Connect Service"
+#ifdef QICC_PKG_BASENAME
+#  define ENCLOUD_SVC_SUFFIX  QICC_PKG_BASENAME " " "Service"
+#else
+#  define ENCLOUD_SVC_SUFFIX  "Connect Service"
+#endif
+
+#ifdef QICC_XBRAND
+#  define ENCLOUD_SVC_NAME  ENCLOUD_SVC_SUFFIX
+#else
+#  define ENCLOUD_SVC_NAME  ENCLOUD_ORG " " ENCLOUD_SVC_SUFFIX
+#endif
 
 #define ENCLOUD_SVC_DESC    (ENCLOUD_SVC_NAME + QString(" provides an API for Cloud functionality"))
 

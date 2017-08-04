@@ -22,7 +22,11 @@ static char libEncloudInstallDirBuffer[512];
 
 #else
 
-#define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
+#ifdef QICC_XBRAND
+#  define ENCLOUD_APP_FULL            ENCLOUD_APP
+#else
+#  define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
+#endif
 
 // e.g Endian/ConnectApp, Exor/JMCloudConnect
 #define ENCLOUD_PRODUCTDIR          ENCLOUD_ORG "/" ENCLOUD_PRODUCT
