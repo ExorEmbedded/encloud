@@ -90,7 +90,7 @@ LIBS += -lyaml-cpp
 #
 # installation
 #
-target.path = $${BINDIR}
+target.path = $${SBINDIR}
 INSTALLS += target
 
 # command to run upon 'make check'

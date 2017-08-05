@@ -133,12 +133,10 @@ windows {
     CONFDIR = "$${INSTALLDIR}/$${PKGNAME}/etc"
 } unix {  # used for dev and production
     splitdeps {
-        BINDIR = /usr/sbin
+        SBINDIR = /usr/sbin
         CONFDIR = /etc
     }
 }
-
-#message("BINDIR: $$BINDIR")
 
 # keep build files separate from sources
 UI_DIR = build/uics
