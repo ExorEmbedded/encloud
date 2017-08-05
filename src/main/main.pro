@@ -59,23 +59,19 @@ win32 {
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
 
-    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src $$LIBENCLOUD_PATH/about
+    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
 
     # must be administrator to run it
     QMAKE_LFLAGS += "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
 
     PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud$${DBG_SUFFIX}.lib
-    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/about/$$DESTDIR/about$${DBG_SUFFIX}.lib
 
     LIBS += $$PRE_TARGETDEPS
 } else {
     !splitdeps {
-        about {
-            LIBS += -L$$LIBENCLOUD_PATH/about
-        }
         LIBS += -L$$LIBENCLOUD_PATH/src
     }
-    LIBS += -lencloud -labout
+    LIBS += -lencloud
 }
 
 # yaml-cpp
@@ -97,5 +93,5 @@ INSTALLS += target
 # ENCLOUD_WRAP environment variable can be set to "gdb", "valgrind", etc
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" qmake -r
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" ENCLOUD_ARGS="-t" qmake -r
-check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src:$$SRCBASEDIR/../libencloud/about \
+check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src \
                  $$(ENCLOUD_WRAP) ./$$TARGET $$(ENCLOUD_ARGS)

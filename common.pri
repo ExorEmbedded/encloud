@@ -18,10 +18,6 @@
 # [ Feature Disabling ]
 #
 #   noservice   disable service functionality (simple QtCoreApplication)
-#
-#
-# [ About definitions ]
-#   about       use brand info from about dll, instead of using default for major brand (exor/endian)
 
 SRCBASEDIR = $$PWD
 
@@ -102,8 +98,6 @@ noservice {
 debug:unix {
     QMAKE_CXXFLAGS += -g
 }
-
-about       { DEFINES += LIBENCLOUD_USE_ABOUT }
 
 #
 # build settings
