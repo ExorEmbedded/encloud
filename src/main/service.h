@@ -8,8 +8,8 @@
 #include "application.h"
 #include <encloud/Logger>
 
-#ifdef QICC_PKG_BASENAME
-#  define ENCLOUD_SVC_SUFFIX  QICC_PKG_BASENAME " " "Service"
+#ifdef QICC_PKGNAME_BASE
+#  define ENCLOUD_SVC_SUFFIX  QICC_PKGNAME_BASE " " "Service"
 #else
 #  define ENCLOUD_SVC_SUFFIX  "Connect Service"
 #endif
