@@ -41,8 +41,8 @@ do_stop()
 
     #wget -O - --post-data "action=stop" "${ENCLOUD_URL}" >/dev/null 2>&1
 
-    # since we started with bash make sure children are killed
-    [ -e ${PIDFILE} ] && pkill -P $(cat "${PIDFILE}")
+    # since we started with bash make sure all children are killed (via PGID)
+    [ -e ${PIDFILE} ] && kill -- -$(cat /proc/`cat ${PIDFILE}`/stat | cut -d ' ' -f 6)
 
     start-stop-daemon --stop --oknodo --pidfile "${PIDFILE}" >/dev/null 2>&1
     [ $? -ne 0 ] && die "Failed stopping daemon"
