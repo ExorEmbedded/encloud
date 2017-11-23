@@ -74,14 +74,16 @@ win32 {
     LIBS += -lencloud
 }
 
-# yaml-cpp
-YAMLCPP_PATH = $${SRCBASEDIR}/../yaml-cpp
-!exists($$LIBENCLOUD_PATH): error("Missing libencloud dependency - expected in $$YAMLCPP_PATH") 
-!splitdeps {
-    INCLUDEPATH += $${YAMLCPP_PATH}/include
-    LIBS += -L$${YAMLCPP_PATH}/src/$$DESTDIR 
+# yaml-cpp (agent only)
+!splitdeps  {
+    YAMLCPP_PATH = $${SRCBASEDIR}/../yaml-cpp
+    !exists($$LIBENCLOUD_PATH): error("Missing libencloud dependency - expected in $$YAMLCPP_PATH") 
+    !splitdeps {
+        INCLUDEPATH += $${YAMLCPP_PATH}/include
+        LIBS += -L$${YAMLCPP_PATH}/src/$$DESTDIR 
+    }
+    LIBS += -lyaml-cpp
 }
-LIBS += -lyaml-cpp
 
 #
 # installation
