@@ -2,40 +2,23 @@
 #define _ENCLOUD_APPLICATION_H_
 
 #include <QCoreApplication>
-#ifndef ENCLOUD_DISABLE_SERVICE
-#  include "service.h"
-#  include "qtservice.h"
-#else
-#  include "server.h"
-#endif
 
 namespace encloud {
 
 class Application :
-#ifndef ENCLOUD_DISABLE_SERVICE
-    public Service
-#else
     public QCoreApplication
-#endif
 {
     Q_OBJECT
 
 public:
 
-    // yes this it weird, but QApplication must take a reference to argc
+    // QApplication takes a *reference* to argc
     // (qt-project.org/doc/qt-4.8/qapplication.html)
     Application (int &argc, char **argv);
     ~Application ();
 
-    bool isValid ();
-
-private:
-
-#ifdef ENCLOUD_DISABLE_SERVICE
-    Server *_server;
-#endif
-
-    bool _isValid;
+    // reimplemented
+    bool notify (QObject *receiver, QEvent *e);
 };
 
 }  // namespace encloud

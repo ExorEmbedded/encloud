@@ -1,5 +1,6 @@
 #include "server.h"
 #include "common.h"
+#include <encloud/Utils>
 
 namespace encloud 
 {
@@ -18,7 +19,7 @@ Server::Server (QObject *parent)
     //
     // port is read and written to libencloud settings (global)
     //
-    _settings = new QSettings(QSettings::SystemScope, ENCLOUD_ORG, ENCLOUD_LIBENCLOUD_APP);
+    _settings = new LIBENCLOUD_SYS_SETTINGS(ENCLOUD_ORG, ENCLOUD_LIBENCLOUD_APP);
     ENCLOUD_ERR_IF (_settings == NULL);
 
     ENCLOUD_DBG("System Settings file: " << _settings->fileName());

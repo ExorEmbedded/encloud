@@ -4,11 +4,11 @@
 #include <encloud/Logger>
 #include "common.h"
 #include "info.h"
-#include "application.h"
+#include "service.h"
 
 int main (int argc, char **argv)
 {
-    encloud::Application app(argc, argv);
+    encloud::Service service(argc, argv);
 
 #ifndef ENCLOUD_DISABLE_SERVICE
     // This logger lives until service is created (a new logger is created within service)
@@ -21,7 +21,7 @@ int main (int argc, char **argv)
             EXIT_FAILURE);
 #endif
 
-    ENCLOUD_RETURN_IF (!app.isValid(), EXIT_FAILURE);
+    ENCLOUD_RETURN_IF (!service.isValid(), EXIT_FAILURE);
 
     qDebug() << "Starting " << qPrintable(encloud::info::versionInfo())
             << "rev: " << qPrintable(encloud::info::revision());
@@ -33,7 +33,7 @@ int main (int argc, char **argv)
     QTextCodec::setCodecForCStrings(utf8Codec);
     QTextCodec::setCodecForLocale(utf8Codec);
 
-    ENCLOUD_ERR_IF (app.exec());
+    ENCLOUD_ERR_IF (service.exec());
 
     ENCLOUD_DBG("Success");
     return 0;

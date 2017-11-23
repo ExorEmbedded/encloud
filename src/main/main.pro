@@ -16,10 +16,8 @@ HEADERS += application.h
 SOURCES += server.cpp
 HEADERS += server.h
 
-!noservice {
-    SOURCES += service.cpp
-    HEADERS += service.h
-}
+SOURCES += service.cpp
+HEADERS += service.h
 
 #
 # local libraries
@@ -55,34 +53,47 @@ LIBS += $$PRE_TARGETDEPS
 
 # libencloud
 LIBENCLOUD_PATH = $$SRCBASEDIR/../libencloud 
+INCLUDEPATH += $$LIBENCLOUD_PATH/include
 win32 {
     !exists($$LIBENCLOUD_PATH) { 
         error("Missing libencloud dependency - expected in $$LIBENCLOUD_PATH") 
     }
-    INCLUDEPATH += $$LIBENCLOUD_PATH/include
 
-    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src $$LIBENCLOUD_PATH/about
+    DEPENDPATH += $$LIBENCLOUD_PATH/include $$LIBENCLOUD_PATH/src
 
     # must be administrator to run it
     QMAKE_LFLAGS += "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\""
 
     PRE_TARGETDEPS += $$LIBENCLOUD_PATH/src/$$DESTDIR/encloud$${DBG_SUFFIX}.lib
-    PRE_TARGETDEPS += $$LIBENCLOUD_PATH/about/$$DESTDIR/about$${DBG_SUFFIX}.lib
 
     LIBS += $$PRE_TARGETDEPS
 } else {
-    # else:unix { use system paths }
-    LIBS += -L$$LIBENCLOUD_PATH/about
-    LIBS += -lencloud -labout
+    !splitdeps {
+        LIBS += -L$$LIBENCLOUD_PATH/src
+    }
+    LIBS += -lencloud
 }
 
+# yaml-cpp (agent only)
+!splitdeps  {
+    YAMLCPP_PATH = $${SRCBASEDIR}/../yaml-cpp
+    !exists($$LIBENCLOUD_PATH): error("Missing libencloud dependency - expected in $$YAMLCPP_PATH") 
+    !splitdeps {
+        INCLUDEPATH += $${YAMLCPP_PATH}/include
+        LIBS += -L$${YAMLCPP_PATH}/src/$$DESTDIR 
+    }
+    LIBS += -lyaml-cpp
+}
+
+#
 # installation
-target.path = $${BINDIR}
+#
+target.path = $${SBINDIR}
 INSTALLS += target
 
 # command to run upon 'make check'
 # ENCLOUD_WRAP environment variable can be set to "gdb", "valgrind", etc
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" qmake -r
 # e.g. ENCLOUD_WRAP="valgrind --trace-children=yes --leak-check=full" ENCLOUD_ARGS="-t" qmake -r
-check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src:$$SRCBASEDIR/../libencloud/about \
+check.commands = LD_LIBRARY_PATH=$$SRCBASEDIR/../libencloud/src \
                  $$(ENCLOUD_WRAP) ./$$TARGET $$(ENCLOUD_ARGS)

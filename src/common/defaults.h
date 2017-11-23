@@ -5,34 +5,17 @@
 #define ENCLOUD_APP                 ENCLOUD_PKGNAME
 #define ENCLOUD_LIBENCLOUD_APP      "libencloud"
 
-#ifdef LIBENCLOUD_USE_ABOUT
-
-#include "../../../libencloud/about/about.h"
-
-static char libEncloudFullAppNameBuffer[256];
-#define ENCLOUD_APP_FULL            LibEncloudFullAppName(libEncloudFullAppNameBuffer, ENCLOUD_APP )
-
-// e.g Endian/ConnectClient, Exor/JMConnect
-static char libEncloudProductDirBuffer[512];
-#define ENCLOUD_PRODUCTDIR          LibEncloudProductDir(libEncloudProductDirBuffer, ENCLOUD_ORG, ENCLOUD_PRODUCT)
-
-// e.g Endian/ConnectClient/encloud | Exor/JMConnect/encloud
-static char libEncloudInstallDirBuffer[512];
-#define ENCLOUD_INSTALLDIR          LibEncloudInstallDir(libEncloudInstallDirBuffer, ENCLOUD_PRODUCTDIR, ENCLOUD_PKGNAME_LOWER)
-
+#ifdef QICC_XBRAND
+#  define ENCLOUD_APP_FULL            ENCLOUD_APP
 #else
-
-#define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
-
-// e.g Endian/ConnectClient, Exor/JMConnect
-#define ENCLOUD_PRODUCTDIR          ENCLOUD_ORG "/" ENCLOUD_PRODUCT
-
-// e.g Endian/ConnectClient/encloud | Exor/JMConnect/encloud
-#define ENCLOUD_INSTALLDIR          ENCLOUD_PRODUCTDIR "/" ENCLOUD_PKGNAME_LOWER
-
+#  define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
 #endif
 
+// e.g Endian/ConnectApp, Exor/JMCloudConnect
+#define ENCLOUD_PRODUCTDIR          ENCLOUD_ORG "/" ENCLOUD_PRODUCT
 
+// e.g Endian/ConnectApp/encloud | Exor/JMCloudConnect/encloud
+#define ENCLOUD_INSTALLDIR          ENCLOUD_PRODUCTDIR "/" ENCLOUD_PKGNAME_LOWER
 
 #ifndef ENCLOUD_REVISION
   #define ENCLOUD_REVISION          ""
