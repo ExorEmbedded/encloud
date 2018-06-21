@@ -1,15 +1,23 @@
 #ifndef _ENCLOUD_SERVICE_H_
 #define _ENCLOUD_SERVICE_H_
 
-#include "qtservice.h"
+#ifndef ENCLOUD_DISABLE_SERVICE
+#  include "qtservice.h"
+#endif
 #include "server.h"
+#include "application.h"
 #include <encloud/Logger>
 
-#ifdef ENCLOUD_ENDIAN
-// changed to follow new Connect Client App naming
-#  define ENCLOUD_SVC_NAME  "Endian Connect Service"
+#ifdef QICC_PKGNAME_BASE
+#  define ENCLOUD_SVC_SUFFIX  QICC_PKGNAME_BASE " " "Service"
 #else
-#  define ENCLOUD_SVC_NAME  (ENCLOUD_APP_FULL + QString(" Service"))
+#  define ENCLOUD_SVC_SUFFIX  "Connect Service"
+#endif
+
+#ifdef QICC_XBRAND
+#  define ENCLOUD_SVC_NAME  ENCLOUD_SVC_SUFFIX
+#else
+#  define ENCLOUD_SVC_NAME  ENCLOUD_ORG " " ENCLOUD_SVC_SUFFIX
 #endif
 
 #define ENCLOUD_SVC_DESC    (ENCLOUD_SVC_NAME + QString(" provides an API for Cloud functionality"))
@@ -17,7 +25,12 @@
 namespace encloud 
 {
 
-class Service : public QObject, public QtService<QCoreApplication>
+class Service 
+#ifndef ENCLOUD_DISABLE_SERVICE
+    : public QObject, public QtService<Application>
+#else
+    : public QCoreApplication
+#endif
 {
     Q_OBJECT
 
@@ -26,10 +39,14 @@ public:
     ~Service ();
 
     bool isValid ();
+    int exec ();
 
 protected:
+
+#ifndef ENCLOUD_DISABLE_SERVICE
     void start ();
     void stop ();
+#endif
 
     libencloud::Logger *_logger;
     bool _isValid;

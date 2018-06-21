@@ -2,52 +2,41 @@
 #
 # [ General ]
 #
-#   endian      Endian build - used for local install paths
-#   exor        Exor build - used for local install paths
 #   debug       compile libraries with debugging symbols
+#   splitdeps   Dependencies are split into different parts of the system
+#               (Default behaviour is to package all dependencies together into a self-contained package/bundle
+#               Split mode is used when dependencies are handled as separate packages - e.g. Yocto Encloud services)
 #
 # [ Modes ]
 # 
 # Note: mode selection has implications on behaviour and packaging!
 #
-#   modeqcc     Endian Connect App / Exor JMConnect mode
+#   modeqcc     Endian Connect App / Exor JMCloudConnect mode
 #   modeece     Endian Cloud Enabler mode
 #   modesece    Software Endian Cloud Enabler mode
 #
 # [ Feature Disabling ]
 #
 #   noservice   disable service functionality (simple QtCoreApplication)
-#
-#
-# [ About definitions ]
-#   about       use brand info from about dll, instead of using default for major brand (exor/endian)
 
+SRCBASEDIR = $$PWD
 
 # Local configuration overrides. Sample content:
-#     CONFIG += endian
 #     CONFIG += modeqcc
 LOCALCONFIG=$$(HOME)/.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
 LOCALCONFIG=.qmake.pri
 exists($${LOCALCONFIG}): include($${LOCALCONFIG})
 
+include($${SRCBASEDIR}/defines.pri)
+
 PKGNAME = Encloud
 PKGNAME_LOWER = encloud
 
 # only x.x.x.x format allowed, where x is a number
-VERSION = 0.2.3
+VERSION = 0.4.0
 #VERSION_TAG = Wip  # Dev version - comment this for official release!
 #VERSION_TAG = Beta  # Beta version - comment this for official releases!
-
-endian {
-    ORG = Endian
-    DEFINES += ENCLOUD_ENDIAN
-} else:exor {
-    ORG = Exor
-    DEFINES += ENCLOUD_EXOR
-} else {
-    error("organisation must be defined (CONFIG += endian|exor)!")
-}
 
 unix:CONFIG -= debug
 CONFIG += ordered
@@ -81,21 +70,6 @@ win32 {
 # custom compilation macros and flags
 # 
 
-modeqcc {
-    endian {
-        PRODUCT_DIR="ConnectApp"
-    } else {
-        PRODUCT_DIR="HMIConnect"
-    }
-} else:modeece {
-    PRODUCT_DIR="Encloud"
-} else:modesece {
-    PRODUCT_DIR="SECE"
-} else {
-    error("a mode must be defined (CONFIG += modeqcc|modeece|modesece)!")
-}
-
-PROGDIR=$$(ProgramFiles)/$${ORG}/$${PRODUCT_DIR}
 DEFINES += ENCLOUD_PRODUCT=\\\"$${PRODUCT_DIR}\\\"
 
 DEFINES += ENCLOUD_VERSION=\\\"$$VERSION\\\"
@@ -110,7 +84,12 @@ exists(".git") {
 }
 DEFINES += ENCLOUD_PKGNAME=\\\"$$PKGNAME\\\"
 DEFINES += ENCLOUD_PKGNAME_LOWER=\\\"$$PKGNAME_LOWER\\\"
-DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
+
+xbrand {
+    DEFINES += ENCLOUD_ORG=\\\"\\\"
+} else {
+    DEFINES += ENCLOUD_ORG=\\\"$$ORG\\\"
+}
 
 # custom flags
 noservice {
@@ -120,31 +99,38 @@ debug:unix {
     QMAKE_CXXFLAGS += -g
 }
 
-about       { DEFINES += LIBENCLOUD_USE_ABOUT }
-
 #
 # build settings
 # 
-
-SRCBASEDIR = $$PWD
 
 # dependency for common headers, etc
 INCLUDEPATH += $$SRCBASEDIR/src/common
 DEPENDPATH += $$INCLUDEPATH
 
-# install dirs
-windows {  # used only for dev - installer handles positioning on target
-           # and runtime paths are defined in src/common/defaults.h
-    INSTALLDIR = "$${PROGDIR}"
-    BINDIR = "$${INSTALLDIR}/bin"
-    CONFDIR = "$${INSTALLDIR}/$${PKGNAME}/etc"
-} else {  # used for dev and production
-    INSTALLDIR = /usr/local
-    BINDIR = /usr/sbin
-    CONFDIR = /etc
+# extra dependency paths 
+# TODO: QT_INSTALL_PREFIX is native Qt build directory (not valid for cross-compile) => use a staging path
+macx {
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/usr/include
+    LIBPATH += $$[QT_INSTALL_PREFIX]/usr/lib
 }
 
-#message("BINDIR: $$BINDIR")
+# 
+# install dirs
+# 
+
+# overrides for Connect packaging
+CONNECT_DEFINES=$${SRCBASEDIR}/../connectapp/defines.pri
+exists($${CONNECT_DEFINES}): include($${CONNECT_DEFINES})
+
+# local overrides
+windows {
+    CONFDIR = "$${INSTALLDIR}/$${PKGNAME}/etc"
+} unix {  # used for dev and production
+    splitdeps {
+        SBINDIR = /usr/sbin
+        CONFDIR = /etc
+    }
+}
 
 # keep build files separate from sources
 UI_DIR = build/uics
