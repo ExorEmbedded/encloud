@@ -28,10 +28,12 @@ int main (int argc, char **argv)
 
     // Set Codec for translations and C strings to UTF-8
     // NOTE: Qt4-specific, no longer needed in Qt5
+#if QT_VERSION < 0x050000
     QTextCodec *utf8Codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForTr(utf8Codec);
     QTextCodec::setCodecForCStrings(utf8Codec);
     QTextCodec::setCodecForLocale(utf8Codec);
+#endif
 
     ENCLOUD_ERR_IF (service.exec());
 
