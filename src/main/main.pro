@@ -24,9 +24,9 @@ HEADERS += service.h
 # 
 
 win32 {
-    PRE_TARGETDEPS += $$SRCBASEDIR/src/common/$$DESTDIR/common.lib
+    PRE_TARGETDEPS += $$OUT_PWD/../common/$$DESTDIR/common.lib
 } else {
-    PRE_TARGETDEPS += $$SRCBASEDIR/src/common/libcommon.a
+    PRE_TARGETDEPS += $$OUT_PWD/../common/libcommon.a
 }
 
 LIBS += $$PRE_TARGETDEPS
