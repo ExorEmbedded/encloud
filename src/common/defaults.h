@@ -8,7 +8,7 @@
 #ifdef QICC_XBRAND
 #  define ENCLOUD_APP_FULL            ENCLOUD_APP
 #else
-#  define ENCLOUD_APP_FULL            ENCLOUD_ORG " "ENCLOUD_APP
+#  define ENCLOUD_APP_FULL            ENCLOUD_ORG " " ENCLOUD_APP
 #endif
 
 // e.g Endian/ConnectApp, Exor/JMCloudConnect
