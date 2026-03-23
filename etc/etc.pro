@@ -8,6 +8,6 @@ INITDIR = "$${CONFDIR}/init.d"
 QMAKE_STRIP = echo
 
 init.path = $${INITDIR}
-init.files = init.d/encloud
+init.files = init.d/encloud init.d/encloud-agent
 
 INSTALLS += init
